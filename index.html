@@ -77,6 +77,12 @@
     transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
   }
   .contact-btn:hover{ border-color: var(--blue); background: rgba(91,127,255,0.1); transform: translateY(-1px); }
+  .lang-toggle{
+    margin-left: 12px; font-family: var(--mono); font-size: 0.78rem; font-weight: 600;
+    color: var(--slate); border: 1px solid var(--line); padding: 8px 12px; border-radius: 100px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .lang-toggle:hover{ border-color: var(--blue); color: var(--ink); }
   @media (max-width: 860px){ .nav-links{ display:none; } }
 
   section{ position: relative; }
@@ -371,6 +377,7 @@
   .tl-role{ font-family: var(--display); font-weight: 600; font-size: 1.08rem; color: var(--ink); }
   .tl-dates{ font-family: var(--mono); font-size: 0.76rem; color: var(--slate-dim); }
   .tl-company{ font-size: 0.88rem; color: var(--blue); font-weight: 500; margin-bottom: 10px; }
+  .tl-company-blurb{ font-size: 0.84rem; color: var(--slate-dim); line-height: 1.5; margin-bottom: 12px; max-width: 60ch; font-style: italic; }
   .tl-item p{ font-size: 0.92rem; line-height: 1.6; color: var(--slate); max-width: 62ch; }
   .tl-item p strong{ color: var(--ink); font-weight: 500; }
   .tl-bullets{ margin-top: 14px; max-width: 64ch; }
@@ -443,6 +450,7 @@
       <a href="#experiencia">Experiência</a>
     </nav>
     <a href="#convite" class="contact-btn">Entre em contato →</a>
+    <a href="index-en.html" class="lang-toggle">EN</a>
   </div>
 </header>
 
@@ -452,12 +460,12 @@
   <div class="grid-overlay"></div>
   <div class="hero-grid">
     <div class="hero-inner">
-      <div class="status-badge"><span class="pulse"></span>Construindo na Tempo desde nov/2025</div>
+      <div class="status-badge"><span class="pulse"></span>10+ features lançadas sozinha em 6 meses</div>
       <div class="hi-line">Oi, eu sou</div>
       <h1>Caroline Gonçalves.</h1>
       <div class="role-line grad-text">Eu abro caminho onde ninguém desenhou um.</div>
       <p class="hero-sub">
-        Senior Product Manager, especialista em IA e produtos B2B. Hoje sou a única PM da Tempo, tocando o produto de ponta a ponta — da descoberta ao design, do PRD ao lançamento — para um time de ~12 engenheiros e ~30 pessoas de operação.
+        Senior Product Manager, especialista em IA e produtos B2B. Hoje sou a única PM da Tempo, tocando o produto de ponta a ponta — da descoberta ao design, do PRD ao lançamento — para um time de 12 engenheiros e 30 pessoas de operação.
       </p>
       <div class="domain-chips">
         <span class="chip">B2B</span>
@@ -501,7 +509,7 @@
         <div class="stat-label">de redução no tempo de resposta da busca geral da plataforma (Ploomes)</div>
       </div>
       <div class="stat">
-        <div class="stat-num">~400</div>
+        <div class="stat-num">400</div>
         <div class="stat-label">clientes B2C atendidos pela plataforma que eu lidero</div>
       </div>
     </div>
@@ -533,12 +541,12 @@
       <div class="principle">
         <div class="principle-num">04</div>
         <h3>Autonomia não é ausência de processo</h3>
-        <p>Toco o produto sozinha pra um time de ~12 engenheiros e ~30 pessoas de operação. Isso só funciona porque eu escrevo PRD claro, aviso decisão antes de alguém perguntar, e sei travar prioridade quando precisa. Sem isso, vira bagunça rápido.</p>
+        <p>Toco o produto sozinha pra um time de 12 engenheiros e 30 pessoas de operação. Isso só funciona porque eu escrevo PRD claro, aviso decisão antes de alguém perguntar, e sei travar prioridade quando precisa. Sem isso, vira bagunça rápido.</p>
       </div>
     </div>
   </div>
   <div class="compass-wrap">
-    <span class="compass-msg">você achou.</span>
+    <span class="compass-msg">você achou 👀 isso já diz algo bom sobre você.</span>
     <div class="compass">
       <svg width="34" height="34" viewBox="0 0 40 40" fill="none">
         <circle cx="20" cy="20" r="16" stroke="#A374FF" stroke-width="1.2"/>
@@ -585,23 +593,11 @@
       <div class="journey-card soon">
         <div class="journey-num">03</div>
         <div class="journey-body">
-          <h3>O estudo que ninguém pediu, mas guiou a estratégia do ano seguinte</h3>
-          <p>Como um problema sem dono virou a primeira análise estruturada de churn da empresa.</p>
+          <h3>O estudo de churn que virou hipótese de produto</h3>
+          <p>Entendendo por que clientes não viam valor fora da avaliação anual — e a hipótese de crescimento que nasceu disso.</p>
           <div class="journey-tags">
             <span>Qulture.Rocks</span>
-            <span>Dados · Estratégia</span>
-          </div>
-        </div>
-        <div class="journey-soon-label">Em construção</div>
-      </div>
-      <div class="journey-card soon">
-        <div class="journey-num">04</div>
-        <div class="journey-body">
-          <h3>Case de fintech: repensando ativação em produtos white-label</h3>
-          <p>Diagnóstico e hipóteses pra dois problemas de funil distintos em produtos bancários white-label.</p>
-          <div class="journey-tags">
-            <span>Aarin</span>
-            <span>Fintech · Funil</span>
+            <span>Discovery · Dados</span>
           </div>
         </div>
         <div class="journey-soon-label">Em construção</div>
@@ -623,7 +619,7 @@
           <div>
             <div class="testi-name">Vânia Cristina Santos</div>
             <div class="testi-role">Sr Product Designer · AI · Design Systems</div>
-            <div class="testi-context">mesma equipe</div>
+            <div class="testi-context">mesma squad</div>
           </div>
         </div>
       </div>
@@ -656,7 +652,7 @@
           <div>
             <div class="testi-name">Fellipe Sena</div>
             <div class="testi-role">Software Engineer</div>
-            <div class="testi-context">mesma equipe</div>
+            <div class="testi-context">mesma squad</div>
           </div>
         </div>
       </div>
@@ -677,8 +673,8 @@
           <div class="testi-avatar">JP</div>
           <div>
             <div class="testi-name">João Pedro Ledo Ribeiro</div>
-            <div class="testi-role">Especialista em Atendimento e Processos</div>
-            <div class="testi-context">squad diferente</div>
+            <div class="testi-role">Coordenador de Suporte Técnico</div>
+            <div class="testi-context">stakeholder</div>
           </div>
         </div>
       </div>
@@ -697,11 +693,12 @@
           <span class="tl-role">Senior AI Product Manager</span>
           <span class="tl-dates">nov/2025 — presente</span>
         </div>
-        <div class="tl-company">Tempo</div>
-        <p><strong>Única PM da Tempo</strong>, tocando o produto de ponta a ponta de uma plataforma de IA que orquestra pagamentos, tarefas e agendamentos via assistentes de WhatsApp para ~400 clientes B2C, com ~12 engenheiros e ~30 pessoas de operação.</p>
+        <div class="tl-company"><a href="https://www.seutempo.com/" target="_blank" style="color:inherit; text-decoration:underline;">Tempo ↗</a></div>
+        <div class="tl-company-blurb">Plataforma brasileira de IA que organiza finanças, tarefas e agenda de clientes via assistentes no WhatsApp — pagamentos, viagens, presentes, reembolsos de seguro e emissão de documentos.</div>
+        <p><strong>Única PM da Tempo</strong>, tocando o produto de ponta a ponta de uma plataforma de IA que orquestra pagamentos, tarefas e agendamentos via assistentes de WhatsApp para 400 clientes B2C, com 12 engenheiros e 30 pessoas de operação.</p>
         <ul class="tl-bullets">
           <li>Identifiquei sozinha um gargalo operacional na geração de templates de atendimento e construí, via Lovable, uma solução que reduziu o tempo de criação em até 90% — <a href="case-lovable.html" style="color:var(--blue); text-decoration:underline;">ver case completo →</a></li>
-          <li>Zerei os chamados de investigação de erro de pagamento pra engenharia, devolvendo esse tempo pra evolução do produto: mapeei 28 erros entre Pix, Boleto e TED e transformei uma tela de notificações obsoleta numa central de operações, do discovery ao lançamento em ~1 mês. Também desenhei a automação de IA que resolve o erro e avisa o cliente proativamente pelo WhatsApp — <a href="case-payments.html" style="color:var(--blue); text-decoration:underline;">ver case completo →</a></li>
+          <li>Zerei os chamados de investigação de erro de pagamento pra engenharia, devolvendo esse tempo pra evolução do produto: mapeei 28 erros entre Pix, Boleto e TED e transformei uma tela de notificações obsoleta numa central de operações, do discovery ao lançamento em 1 mês. Também desenhei a automação de IA que resolve o erro e avisa o cliente proativamente pelo WhatsApp — <a href="case-payments.html" style="color:var(--blue); text-decoration:underline;">ver case completo →</a></li>
           <li>Automatizei o acompanhamento de tarefas com follow-ups via IA, incluindo um sistema de comentários duplo: os externos disparam atualização automática pro cliente no WhatsApp, os internos ficam só para coordenação da equipe.</li>
           <li>Lancei 10+ features em 6 meses cobrindo pagamentos, automação de tarefas e ferramentas de operação — agendamento de pagamentos, extrato automático, anexos de arquivo, prévia semanal, aprovação de custos, tags de portfólio, notas de cliente integradas com IA, preenchimento automático de boleto e pesquisas de satisfação.</li>
           <li>Defini as regras de validação para Pix, Boleto e TED, incluindo lógica de rateio automático. Mapeei todos os módulos da plataforma para definir os planos de monetização B2B SaaS.</li>
@@ -713,7 +710,8 @@
           <span class="tl-role">Product Manager</span>
           <span class="tl-dates">mar/2024 — nov/2025</span>
         </div>
-        <div class="tl-company">Ploomes</div>
+        <div class="tl-company"><a href="https://www.ploomes.com/" target="_blank" style="color:inherit; text-decoration:underline;">Ploomes ↗</a></div>
+        <div class="tl-company-blurb">CRM de vendas brasileiro, focado em simplificar e automatizar processos comerciais pra pequenas e médias empresas.</div>
         <p><strong>Liderança de um squad de 13 pessoas</strong> num CRM de vendas — design, engenharia, QA e suporte.</p>
         <ul class="tl-bullets">
           <li>Gerei <strong>R$100K+ em MRR</strong> a partir de um único cliente ao escopar, priorizar e lançar uma feature de fusão de suporte e negócios em 45 dias.</li>
@@ -731,7 +729,8 @@
           <span class="tl-role">Product Manager · Associate PM</span>
           <span class="tl-dates">mai/2022 — mar/2024</span>
         </div>
-        <div class="tl-company">Qulture.Rocks (UOL)</div>
+        <div class="tl-company"><a href="https://www.qulture.rocks/" target="_blank" style="color:inherit; text-decoration:underline;">Qulture.Rocks (UOL) ↗</a></div>
+        <div class="tl-company-blurb">Plataforma de gestão de performance e cultura organizacional, adquirida pelo grupo UOL — feedback contínuo, avaliações e desenvolvimento de pessoas.</div>
         <p><strong>Liderei o primeiro estudo de churn</strong> da empresa, guiando a estratégia de 2024.</p>
         <ul class="tl-bullets">
           <li>Concebi e lancei uma feature de lembretes para criação e atualização de planos de ação, em dois canais além da própria plataforma, aumentando o engajamento com o PDP.</li>
@@ -745,17 +744,30 @@
       <div class="tl-item past">
         <div class="tl-head">
           <span class="tl-role">FP&A Analyst</span>
-          <span class="tl-dates">2019 — 2022</span>
+          <span class="tl-dates">ago/2021 — abr/2022</span>
         </div>
-        <div class="tl-company">VMK Holding · Construtora Stéfani</div>
-        <p><strong>Onde aprendi a pensar como analista antes de pensar como PM.</strong></p>
+        <div class="tl-company"><a href="https://www.linkedin.com/company/vmk-holding/" target="_blank" style="color:inherit; text-decoration:underline;">VMK Holding ↗</a></div>
+        <div class="tl-company-blurb">Holding que administra mais de 60 unidades de negócio no Brasil — franquias como Cartão de TODOS e AMORSAÚDE — além de investimentos em real estate e negócios de impacto social.</div>
         <ul class="tl-bullets">
-          <li>Estruturei o processo orçamentário de 26 franquias do Grupo Todos (VMK Holding) — planilhas, premissas de projeção e acompanhamento de fluxo orçamentário.</li>
+          <li>Estruturei o processo orçamentário de 26 franquias do Grupo Todos — planilhas de orçamento, premissas de projeção e acompanhamento do fluxo orçamentário.</li>
           <li>Produzi relatórios mensais de resultados para dezenas de unidades de negócio e conduzi estudos de viabilidade econômico-financeira.</li>
-          <li>Na Construtora Stéfani, desenvolvi o Dashboard Corporativo, projeções de fluxo de caixa e relatórios administrativos via SQL sobre o ERP Mega.</li>
+        </ul>
+        <div class="tl-tags"><span>Planejamento Orçamentário</span><span>Viabilidade Econômica</span><span>Excel</span></div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-head">
+          <span class="tl-role">FP&A Assistant → Analyst</span>
+          <span class="tl-dates">jul/2019 — ago/2021</span>
+        </div>
+        <div class="tl-company"><a href="https://www.construtorastefani.com.br/" target="_blank" style="color:inherit; text-decoration:underline;">Construtora Stéfani ↗</a></div>
+        <div class="tl-company-blurb">Construtora e incorporadora focada no desenvolvimento e gestão de empreendimentos residenciais e comerciais no Brasil.</div>
+        <ul class="tl-bullets">
+          <li>Conduzi análise financeira de cada projeto imobiliário do grupo, com foco em indicadores-chave, e preparei projeções de fluxo de caixa de curto e longo prazo para 180 projetos.</li>
+          <li>Desenvolvi e mantive o Dashboard Corporativo; auditei informações contábeis e gerenciais, e criei relatórios administrativos via SQL a partir do ERP Mega.</li>
+          <li>Projetei orçamentos e conduzi análises de GAP para 180 projetos e as holdings do grupo.</li>
           <li>Criei um projeto de identificação de erros de lançamento financeiro, rastreando divergências em centro de custo, classe financeira e projeto via query — gerando informação gerencial mais confiável.</li>
         </ul>
-        <div class="tl-tags"><span>SQL</span><span>Financial Modeling</span><span>Dashboards</span><span>Excel</span></div>
+        <div class="tl-tags"><span>SQL</span><span>Fluxo de Caixa</span><span>Dashboards</span><span>Auditoria</span></div>
       </div>
       <div class="tl-item origin">
         <div class="tl-head">
@@ -789,9 +801,12 @@
     <h2>Se o problema for difícil, <span class="grad-text">me chama</span>.</h2>
     <p>Gosto de trocar ideia sobre produto, ambiguidade e times que constroem sem esperar o caminho pronto. Se é isso que você também gosta, vamos conversar.</p>
     <div class="convite-actions">
-      <a href="mailto:carolinefg63@gmail.com" class="btn-primary">✉ Me envie um email</a>
-      <a href="https://www.linkedin.com/in/carolinefgoncalves" class="btn-ghost" target="_blank">in LinkedIn</a>
+      <a href="https://www.linkedin.com/in/carolinefgoncalves" class="btn-primary" target="_blank">in LinkedIn</a>
+      <a href="https://www.instagram.com/productbycarol" class="btn-ghost" target="_blank">@productbycarol</a>
+      <a href="cv-caroline-pt.pdf" class="btn-ghost" download>↓ Currículo (PT)</a>
+      <a href="cv-caroline-en.pdf" class="btn-ghost" download>↓ Resume (EN)</a>
     </div>
+    <p style="margin-top:22px; font-family: var(--mono); font-size: 0.85rem; color: var(--slate);">Email: carolinefg63@gmail.com</p>
     <div class="badges">
       <span class="badge">📍 São Paulo, Brasil</span>
       <span class="badge">🏢 Presencial · Híbrido · Remoto</span>
