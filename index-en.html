@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caroline Gonçalves — Product Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void: #08090D;
+    --panel: #12131A;
+    --panel-hi: #181A24;
+    --line: rgba(255,255,255,0.08);
+    --line-hi: rgba(255,255,255,0.16);
+    --ink: #F4F5F8;
+    --slate: #8D8FA0;
+    --slate-dim: #5E6070;
+    --blue: #5B7FFF;
+    --blue-soft: #3C4FCC;
+    --violet: #A374FF;
+    --mint: #34D399;
+
+    --display: 'Sora', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family: var(--body);
+    background: var(--void);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a{ color: inherit; text-decoration:none; }
+  @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important; } }
+
+  .grad-text{
+    background: linear-gradient(100deg, var(--blue) 10%, var(--violet) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(8,9,13,0.72);
+    backdrop-filter: blur(16px) saturate(1.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner{
+    max-width: 1180px; margin: 0 auto;
+    padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo{
+    font-family: var(--display); font-size: 1.05rem; font-weight: 600;
+    display: flex; align-items: center; gap: 10px; letter-spacing: -0.01em;
+  }
+  .logo .dot{
+    width: 8px; height: 8px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--violet));
+    box-shadow: 0 0 12px rgba(91,127,255,0.55);
+  }
+  .nav-links{ display: flex; gap: 30px; font-size: 0.86rem; font-weight: 500; color: var(--slate); }
+  .nav-links a{ transition: color 0.2s ease; }
+  .nav-links a:hover{ color: var(--ink); }
+  .contact-btn{
+    background: var(--panel-hi); color: var(--ink);
+    border: 1px solid var(--line-hi);
+    padding: 9px 18px; border-radius: 100px;
+    font-size: 0.84rem; font-weight: 500;
+    transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  }
+  .contact-btn:hover{ border-color: var(--blue); background: rgba(91,127,255,0.1); transform: translateY(-1px); }
+  .lang-toggle{
+    margin-left: 12px; font-family: var(--mono); font-size: 0.78rem; font-weight: 600;
+    color: var(--slate); border: 1px solid var(--line); padding: 8px 12px; border-radius: 100px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .lang-toggle:hover{ border-color: var(--blue); color: var(--ink); }
+  @media (max-width: 860px){ .nav-links{ display:none; } }
+
+  section{ position: relative; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 150px 32px 110px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mesh{
+    position: absolute; top: -280px; left: -120px;
+    width: 1100px; height: 780px; z-index: 0; pointer-events: none;
+  }
+  .mesh div{ position: absolute; border-radius: 50%; filter: blur(90px); }
+  .mesh .b1{ width: 480px; height: 480px; background: rgba(91,127,255,0.28); left: 60px; top: 220px; }
+  .mesh .b2{ width: 420px; height: 420px; background: rgba(163,116,255,0.24); right: 40px; top: 160px; }
+  .mesh .b3{ width: 320px; height: 320px; background: rgba(52,211,153,0.09); left: 380px; top: 60px; }
+
+  .grid-overlay{
+    position: absolute; inset: 0; z-index: 0; opacity: 0.5;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 800px 600px at 30% 30%, black, transparent 75%);
+  }
+
+  .hero-grid{
+    max-width: 1180px; margin: 0 auto; position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center;
+  }
+  .hero-inner{ text-align: left; }
+  .status-badge{
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 0.78rem;
+    color: var(--slate);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 7px 14px 7px 10px;
+    border-radius: 100px;
+    margin-bottom: 30px;
+  }
+  .pulse{ width: 7px; height: 7px; border-radius: 50%; background: var(--mint); position: relative; }
+  .pulse::after{
+    content:''; position: absolute; inset: -4px; border-radius: 50%;
+    border: 1.5px solid var(--mint); animation: pulse 2.2s ease-out infinite;
+  }
+  @keyframes pulse{ 0%{ transform: scale(0.6); opacity: 0.8; } 100%{ transform: scale(2); opacity: 0; } }
+
+  .hi-line{
+    font-family: var(--display); font-weight: 500; font-size: clamp(1.2rem, 2vw, 1.5rem);
+    color: var(--slate); margin-bottom: 4px;
+  }
+  h1{
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+    line-height: 1.08; letter-spacing: -0.02em; color: var(--ink);
+  }
+  .role-line{
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+    margin-top: 14px;
+  }
+  .hero-sub{
+    margin: 22px 0 0; font-size: 1.08rem; line-height: 1.62; color: var(--slate); max-width: 48ch;
+  }
+  .domain-chips{ margin-top: 26px; display: flex; justify-content: flex-start; gap: 8px; flex-wrap: wrap; }
+  .chip{
+    font-family: var(--mono); font-size: 0.74rem; color: var(--slate);
+    border: 1px solid var(--line); padding: 6px 13px; border-radius: 100px; background: var(--panel);
+  }
+  .hero-cta{ margin-top: 38px; display: flex; justify-content: flex-start; gap: 12px; flex-wrap: wrap; }
+
+  /* ---------- Hero photo ---------- */
+  .hero-photo-wrap{
+    position: relative;
+    justify-self: center;
+  }
+  .hero-photo{
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 3/3.6;
+    border-radius: 28px;
+    overflow: hidden;
+    border: 1px solid var(--line-hi);
+    position: relative;
+    background: var(--panel);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+  }
+  .hero-photo::after{
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(200deg, rgba(91,127,255,0.16), transparent 45%);
+    pointer-events: none;
+  }
+  .hero-photo img{
+    width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
+    display: block;
+  }
+  .photo-badge{
+    position: absolute;
+    left: -18px; bottom: -22px;
+    background: var(--panel-hi);
+    border: 1px solid var(--line-hi);
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+  }
+  .photo-badge .num{
+    font-family: var(--mono); font-weight: 500; font-size: 1.5rem;
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .photo-badge .label{ font-size: 0.78rem; color: var(--slate); line-height: 1.3; }
+  .photo-badge .label strong{ color: var(--ink); display: block; font-size: 0.85rem; font-weight: 600; }
+  @media (max-width: 940px){
+    .hero-grid{ grid-template-columns: 1fr; }
+    .hero-inner{ text-align: center; }
+    .domain-chips, .hero-cta{ justify-content: center; }
+    .hero-photo-wrap{ order: -1; margin-bottom: 20px; }
+    .hero-photo{ max-width: 300px; margin: 0 auto; }
+  }
+  .btn-primary{
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    color: #fff; padding: 14px 28px; border-radius: 10px;
+    font-weight: 600; font-size: 0.92rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: 0 8px 26px rgba(91,127,255,0.25);
+  }
+  .btn-primary:hover{ transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 14px 34px rgba(91,127,255,0.35); }
+  .btn-ghost{
+    border: 1px solid var(--line-hi); color: var(--ink);
+    padding: 14px 28px; border-radius: 10px; font-weight: 500; font-size: 0.92rem;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .btn-ghost:hover{ border-color: var(--blue); background: rgba(91,127,255,0.08); }
+
+  /* ---------- Section shared ---------- */
+  .section-pad{ padding: 100px 32px; }
+  .section-inner{ max-width: 1080px; margin: 0 auto; }
+  .section-label{
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 14px;
+  }
+  .section-title{
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.65rem, 3vw, 2.4rem);
+    letter-spacing: -0.01em; max-width: 22ch; margin-bottom: 56px; color: var(--ink);
+  }
+
+  /* ---------- Impact ---------- */
+  .stat-grid{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .stat{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 30px 24px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative; overflow: hidden;
+  }
+  .stat::before{
+    content:''; position: absolute; inset: 0;
+    background: linear-gradient(140deg, rgba(91,127,255,0.08), transparent 60%);
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .stat:hover{ transform: translateY(-4px); border-color: rgba(91,127,255,0.35); box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
+  .stat:hover::before{ opacity: 1; }
+  .stat-num{
+    font-family: var(--mono); font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 500;
+    color: var(--ink); letter-spacing: -0.02em; position: relative;
+  }
+  .stat-label{ margin-top: 10px; font-size: 0.86rem; line-height: 1.45; color: var(--slate); max-width: 22ch; position: relative; }
+  @media (max-width: 860px){ .stat-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px){ .stat-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- Bússola ---------- */
+  .bussola{ background: linear-gradient(180deg, transparent, rgba(163,116,255,0.03) 40%, transparent); }
+  .bussola .section-label{ color: var(--violet); }
+  .bussola-intro{
+    color: var(--slate); max-width: 54ch; font-size: 1rem; line-height: 1.65;
+    margin-top: -34px; margin-bottom: 54px;
+  }
+  .principles{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .principle{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 34px 32px;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .principle:hover{ border-color: rgba(163,116,255,0.4); transform: translateY(-3px); }
+  .principle-num{ font-family: var(--mono); font-size: 0.8rem; color: var(--violet); margin-bottom: 16px; }
+  .principle h3{
+    font-family: var(--display); font-weight: 600; font-size: 1.22rem; margin-bottom: 12px;
+    color: var(--ink); letter-spacing: -0.01em;
+  }
+  .principle p{ font-size: 0.9rem; line-height: 1.6; color: var(--slate); }
+  @media (max-width: 860px){ .principles{ grid-template-columns: 1fr; } }
+
+  .compass-wrap{ position: absolute; bottom: 44px; right: 40px; display: flex; align-items: center; gap: 12px; }
+  .compass{ width: 34px; height: 34px; cursor: pointer; opacity: 0.35; transition: opacity 0.3s ease, transform 0.4s ease; }
+  .compass-wrap:hover .compass{ opacity: 1; transform: rotate(90deg); }
+  .compass-msg{
+    font-family: var(--mono); font-size: 0.72rem; color: var(--violet);
+    opacity: 0; transform: translateX(-6px); transition: opacity 0.35s ease, transform 0.35s ease; white-space: nowrap;
+  }
+  .compass-wrap:hover .compass-msg{ opacity: 0.9; transform: translateX(0); }
+  @media (max-width: 860px){ .compass-wrap{ right: 24px; bottom: 26px; } .compass-msg{ display:none; } }
+
+  /* ---------- Jornadas ---------- */
+  .journeys{ background: var(--void); }
+  .journeys-intro{
+    color: var(--slate); max-width: 56ch; font-size: 1rem; line-height: 1.65;
+    margin-top: -34px; margin-bottom: 48px;
+  }
+  .journey-list{ display: flex; flex-direction: column; gap: 14px; }
+  .journey-card{
+    display: grid; grid-template-columns: 70px 1fr auto; align-items: center; gap: 24px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    padding: 28px 30px;
+    transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  }
+  .journey-card.live:hover{ border-color: rgba(91,127,255,0.4); transform: translateY(-3px); background: var(--panel-hi); }
+  .journey-card.soon{ opacity: 0.5; cursor: default; }
+  .journey-num{ font-family: var(--mono); font-size: 0.9rem; color: var(--blue); }
+  .journey-card.soon .journey-num{ color: var(--slate-dim); }
+  .journey-body h3{
+    font-family: var(--display); font-weight: 600; font-size: 1.14rem; color: var(--ink);
+    margin-bottom: 8px; letter-spacing: -0.005em;
+  }
+  .journey-body p{ font-size: 0.9rem; color: var(--slate); line-height: 1.5; margin-bottom: 12px; }
+  .journey-tags{ display: flex; gap: 8px; flex-wrap: wrap; }
+  .journey-tags span{
+    font-family: var(--mono); font-size: 0.7rem; color: var(--slate);
+    border: 1px solid var(--line); padding: 4px 10px; border-radius: 100px;
+  }
+  .journey-arrow{ font-size: 1.3rem; color: var(--slate-dim); transition: transform 0.25s ease, color 0.25s ease; }
+  .journey-card.live:hover .journey-arrow{ transform: translateX(4px); color: var(--blue); }
+  .journey-soon-label{
+    font-family: var(--mono); font-size: 0.72rem; color: var(--slate-dim);
+    border: 1px solid var(--line); padding: 6px 12px; border-radius: 100px; white-space: nowrap;
+  }
+  @media (max-width: 640px){
+    .journey-card{ grid-template-columns: 1fr; gap: 10px; }
+    .journey-arrow{ display: none; }
+  }
+
+  /* ---------- Recomendações ---------- */
+  .testi-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .testi-card{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    padding: 28px 26px; display: flex; flex-direction: column;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .testi-card:hover{ border-color: rgba(91,127,255,0.35); transform: translateY(-3px); }
+  .testi-quote{
+    font-size: 0.92rem; line-height: 1.6; color: #C7C9D6; flex-grow: 1; margin-bottom: 22px;
+  }
+  .testi-quote::before{ content: '"'; color: var(--blue); font-family: var(--display); }
+  .testi-quote::after{ content: '"'; color: var(--blue); font-family: var(--display); }
+  .testi-person{ display: flex; align-items: center; gap: 12px; }
+  .testi-avatar{
+    width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-weight: 600; font-size: 0.95rem; color: #fff;
+    background: linear-gradient(135deg, var(--blue), var(--violet));
+  }
+  .testi-name{ font-family: var(--display); font-weight: 600; font-size: 0.92rem; color: var(--ink); }
+  .testi-role{ font-size: 0.78rem; color: var(--slate); line-height: 1.4; margin-top: 2px; }
+  .testi-context{
+    font-family: var(--mono); font-size: 0.68rem; color: var(--slate-dim);
+    margin-top: 4px; letter-spacing: 0.01em;
+  }
+  @media (max-width: 940px){ .testi-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px){ .testi-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- Experiência ---------- */
+  .timeline{ position: relative; padding-left: 32px; }
+  .timeline::before{
+    content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1px;
+    background: var(--line-hi);
+  }
+  .tl-item{ position: relative; padding-bottom: 42px; }
+  .tl-item:last-child{ padding-bottom: 0; }
+  .tl-item::before{
+    content: ''; position: absolute; left: -32px; top: 4px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--void); border: 2px solid var(--blue);
+  }
+  .tl-item.past::before{ border-color: var(--slate-dim); }
+  .tl-item.origin::before{ border-color: var(--mint); background: var(--void); }
+  .tl-item.origin .tl-company{ color: var(--mint); }
+  .tl-head{ display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .tl-role{ font-family: var(--display); font-weight: 600; font-size: 1.08rem; color: var(--ink); }
+  .tl-dates{ font-family: var(--mono); font-size: 0.76rem; color: var(--slate-dim); }
+  .tl-company{ font-size: 0.88rem; color: var(--blue); font-weight: 500; margin-bottom: 10px; }
+  .tl-company-blurb{ font-size: 0.84rem; color: var(--slate-dim); line-height: 1.5; margin-bottom: 12px; max-width: 60ch; font-style: italic; }
+  .tl-item p{ font-size: 0.92rem; line-height: 1.6; color: var(--slate); max-width: 62ch; }
+  .tl-item p strong{ color: var(--ink); font-weight: 500; }
+  .tl-bullets{ margin-top: 14px; max-width: 64ch; }
+  .tl-bullets li{
+    font-size: 0.88rem; line-height: 1.6; color: var(--slate);
+    padding-left: 18px; position: relative; margin-bottom: 9px;
+    list-style: none;
+  }
+  .tl-bullets li:last-child{ margin-bottom: 0; }
+  .tl-bullets li::before{
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 4px; height: 4px; border-radius: 50%; background: var(--slate-dim);
+  }
+  .tl-bullets li strong{ color: var(--ink); font-weight: 500; }
+  .tl-tags{ display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .tl-tags span{
+    font-family: var(--mono); font-size: 0.7rem; color: var(--slate);
+    border: 1px solid var(--line); padding: 4px 10px; border-radius: 100px;
+  }
+
+  /* ---------- Fora do trabalho ---------- */
+  .personal{ text-align: center; }
+  .personal-inner{ max-width: 680px; margin: 0 auto; }
+  .personal p{
+    font-size: 1.06rem; line-height: 1.75; color: #C7C9D6;
+  }
+  .personal em{ font-style: italic; color: var(--ink); }
+
+  /* ---------- Convite ---------- */
+  .convite{ text-align: center; }
+  .convite-inner{ max-width: 700px; margin: 0 auto; position: relative; z-index: 2; }
+  .convite h2{
+    font-family: var(--display); font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.7rem);
+    color: var(--ink); line-height: 1.2; letter-spacing: -0.01em;
+  }
+  .convite p{
+    margin-top: 20px; color: var(--slate); font-size: 1.02rem; line-height: 1.6;
+    max-width: 46ch; margin-left: auto; margin-right: auto;
+  }
+  .convite-actions{ margin-top: 36px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .badges{ margin-top: 50px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .badge{
+    font-family: var(--mono); font-size: 0.74rem; color: var(--slate);
+    border: 1px solid var(--line); background: var(--panel);
+    padding: 8px 15px; border-radius: 100px; display: flex; align-items: center; gap: 7px;
+  }
+
+  footer{
+    padding: 30px 32px; border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 0.75rem; color: var(--slate-dim); text-align: center;
+  }
+
+  .proto-note{
+    background: linear-gradient(100deg, var(--blue), var(--violet)); color: #fff; text-align: center;
+    font-family: var(--mono); font-size: 0.78rem; padding: 10px; letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="header-inner">
+    <div class="logo"><span class="dot"></span>Caroline Gonçalves</div>
+    <nav class="nav-links">
+      <a href="#impacto">Impact</a>
+      <a href="#bussola">Compass</a>
+      <a href="#jornadas">Journeys</a>
+      <a href="#recomendacoes">Recommendations</a>
+      <a href="#experiencia">Experience</a>
+    </nav>
+    <a href="#convite" class="contact-btn">Get in touch →</a>
+    <a href="index.html" class="lang-toggle">PT</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mesh"><div class="b1"></div><div class="b2"></div><div class="b3"></div></div>
+  <div class="grid-overlay"></div>
+  <div class="hero-grid">
+    <div class="hero-inner">
+      <div class="status-badge"><span class="pulse"></span>10+ features shipped solo in 6 months</div>
+      <div class="hi-line">Hi, I'm</div>
+      <h1>Caroline Gonçalves.</h1>
+      <div class="role-line grad-text">I build the path when no one else will.</div>
+      <p class="hero-sub">
+        Senior Product Manager, specialized in AI and B2B products. I'm currently the sole PM at Tempo, owning the product end-to-end — from discovery to design, from PRD to launch — for a team of 12 engineers and 30 ops staff.
+      </p>
+      <div class="domain-chips">
+        <span class="chip">B2B</span>
+        <span class="chip">B2C</span>
+        <span class="chip">Pagamentos</span>
+        <span class="chip">CRM</span>
+      </div>
+      <div class="hero-cta">
+        <a href="#jornadas" class="btn-primary">See the journeys →</a>
+        <a href="#convite" class="btn-ghost">Let's talk</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap">
+      <div class="hero-photo">
+        <img src="caroline-photo.jpg" alt="Caroline Gonçalves">
+      </div>
+      <div class="photo-badge">
+        <span class="num">4+</span>
+        <span class="label"><strong>Years</strong>building product</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACTO -->
+<section class="section-pad" id="impacto">
+  <div class="section-inner">
+    <div class="section-label">Impact at a glance</div>
+    <h2 class="section-title">Numbers don't tell the whole story, but they set the tone.</h2>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Features shipped in 6 months, solo, at Tempo</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">R$100K+</div>
+        <div class="stat-label">in MRR driven by a single feature at Ploomes</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">75%</div>
+        <div class="stat-label">reduction in the platform's overall search response time (Ploomes)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">400</div>
+        <div class="stat-label">B2C clients served by the platform I lead</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BÚSSOLA -->
+<section class="bussola section-pad" id="bussola">
+  <div class="section-inner">
+    <div class="section-label">Compass</div>
+    <h2 class="section-title">How I think when the map runs out.</h2>
+    <p class="bussola-intro">Four principles that show up in almost everything I build.</p>
+    <div class="principles">
+      <div class="principle">
+        <div class="principle-num">01</div>
+        <h3>If it lands in my hands, I solve it</h3>
+        <p>When a feature moved no metric worth prioritizing with the devs, but the ops team suffered with it daily, I built the solution myself from scratch — and debugged it too.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">02</div>
+        <h3>Data before opinion</h3>
+        <p>I led Qulture.Rocks' first churn study — not because anyone asked, but because the 2024 strategy needed a real foundation, not a guess.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">03</div>
+        <h3>New terrain doesn't scare me</h3>
+        <p>I've been PM, designer, and product marketing at the same company, in the same quarter. I'd rather learn fast than wait for someone to draw the right box for me.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">04</div>
+        <h3>Autonomy isn't the absence of process</h3>
+        <p>I own the product solo for a team of 12 engineers and 30 ops staff. That only works because I write clear PRDs, communicate decisions before anyone has to ask, and know when to hold a priority firm. Without that, it falls apart fast.</p>
+      </div>
+    </div>
+  </div>
+  <div class="compass-wrap">
+    <span class="compass-msg">you found it 👀 that already says something good about you.</span>
+    <div class="compass">
+      <svg width="34" height="34" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="16" stroke="#A374FF" stroke-width="1.2"/>
+        <circle cx="20" cy="20" r="1.5" fill="#A374FF"/>
+        <path d="M25 12 L18 20 L15 28 L22 20 Z" fill="#A374FF" opacity="0.9"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- JORNADAS -->
+<section class="journeys section-pad" id="jornadas">
+  <div class="section-inner">
+    <div class="section-label">Journeys</div>
+    <h2 class="section-title">Real problems, different terrain.</h2>
+    <p class="journeys-intro">Each journey has its own context, but the same thread runs through all of them: understanding the real problem before building anything.</p>
+    <div class="journey-list">
+      <a href="case-lovable.html" class="journey-card live">
+        <div class="journey-num">01</div>
+        <div class="journey-body">
+          <h3>No one was going to prioritize this feature. I solved it myself.</h3>
+          <p>A low-impact item on the roadmap, but a high operational drain — rebuilt from scratch, without waiting on an engineering queue.</p>
+          <div class="journey-tags">
+            <span>Tempo</span>
+            <span>Product · AI · Ops</span>
+            <span>-90% time/week</span>
+          </div>
+        </div>
+        <div class="journey-arrow">→</div>
+      </a>
+      <a href="case-payments.html" class="journey-card live">
+        <div class="journey-num">02</div>
+        <div class="journey-body">
+          <h3>Devs used to stop coding to investigate payment errors. Now that time goes back into building.</h3>
+          <p>An outdated notification screen became an operations hub — eliminating error-investigation requests to engineering and returning that time to product development.</p>
+          <div class="journey-tags">
+            <span>Tempo</span>
+            <span>Discovery · Payments</span>
+            <span>28 errors mapped</span>
+          </div>
+        </div>
+        <div class="journey-arrow">→</div>
+      </a>
+      <div class="journey-card soon">
+        <div class="journey-num">03</div>
+        <div class="journey-body">
+          <h3>The churn study that became a product hypothesis</h3>
+          <p>Understanding why clients saw no value outside the annual review — and the growth hypothesis that came out of it.</p>
+          <div class="journey-tags">
+            <span>Qulture.Rocks</span>
+            <span>Discovery · Data</span>
+          </div>
+        </div>
+        <div class="journey-soon-label">In progress</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMENDAÇÕES -->
+<section class="section-pad" id="recomendacoes">
+  <div class="section-inner">
+    <div class="section-label">What people say about me</div>
+    <h2 class="section-title">Recommendations from people who worked with me closely.</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <p class="testi-quote">With a strategic eye for product and discovery, she combines technical knowledge with exceptional communication, energizing the team and creating a light, collaborative, motivating environment.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">VS</div>
+          <div>
+            <div class="testi-name">Vânia Cristina Santos</div>
+            <div class="testi-role">Sr Product Designer · AI · Design Systems</div>
+            <div class="testi-context">same squad</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">Carol is an amazing PM! She was key for us to build a continuous customer feedback process, and supported 3 squads with business and customer analysis — super organized, proactive and customer centric.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">DC</div>
+          <div>
+            <div class="testi-name">Davi Cesar Correia Jr.</div>
+            <div class="testi-role">Lead Product Manager @ Nubank</div>
+            <div class="testi-context">direct leadership</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">Caroline is one of those professionals who make a difference from day one — with a relentless drive to learn and genuine curiosity about the world of Product.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">MF</div>
+          <div>
+            <div class="testi-name">Maria Fernanda Tavares</div>
+            <div class="testi-role">Senior Product Manager @ Grupo OLX</div>
+            <div class="testi-context">senior, same company</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">Carol always sought to learn more about engineering, which makes her a well-rounded PM — she understood product motivations as well as engineering constraints.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">FS</div>
+          <div>
+            <div class="testi-name">Fellipe Sena</div>
+            <div class="testi-role">Software Engineer</div>
+            <div class="testi-context">same squad</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">I had the privilege of being mentored by her early in my Product career, and I learned a lot — about product, about leadership, and about navigating different contexts with confidence.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">IC</div>
+          <div>
+            <div class="testi-name">Isabella Camargo Gonçalves</div>
+            <div class="testi-role">AI Product Manager @ Ploomes</div>
+            <div class="testi-context">mentored by Caroline</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">Carol's sense of urgency, backlog prioritization, and long-term vision surprised me — not just her availability, but the real positive impact generated for the company.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">JP</div>
+          <div>
+            <div class="testi-name">João Pedro Ledo Ribeiro</div>
+            <div class="testi-role">Technical Support Coordinator</div>
+            <div class="testi-context">stakeholder</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIÊNCIA -->
+<section class="section-pad" id="experiencia">
+  <div class="section-inner">
+    <div class="section-label">The path here</div>
+    <h2 class="section-title">From FP&A analyst to sole PM of an AI platform.</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">Senior AI Product Manager</span>
+          <span class="tl-dates">Nov 2025 — present</span>
+        </div>
+        <div class="tl-company"><a href="https://www.seutempo.com/" target="_blank" style="color:inherit; text-decoration:underline;">Tempo ↗</a></div>
+        <div class="tl-company-blurb">Brazilian AI platform that organizes clients' finances, tasks, and schedule via WhatsApp assistants — payments, travel, gifts, insurance reimbursements, and document issuance.</div>
+        <p><strong>Sole PM at Tempo</strong>, owning the product end-to-end for an AI platform that orchestrates payments, tasks, and scheduling via WhatsApp assistants for 400 B2C clients, with 12 engineers and 30 ops staff.</p>
+        <ul class="tl-bullets">
+          <li>I identified an operational bottleneck in generating service templates and built, via Lovable, a solution that cut creation time by up to 90% — <a href="case-lovable-en.html" style="color:var(--blue); text-decoration:underline;">see full case →</a></li>
+          <li>I eliminated payment error-investigation requests to engineering, returning that time to product development: mapped 28 errors across Pix, Boleto, and TED, and turned an outdated notification screen into an operations hub, from discovery to launch in 1 month. I also designed the AI automation that resolves the error and proactively notifies the client via WhatsApp — <a href="case-payments-en.html" style="color:var(--blue); text-decoration:underline;">see full case →</a></li>
+          <li>Automated task follow-ups via AI, including a dual-comment system: external comments trigger automatic WhatsApp updates to the client, internal ones stay for team coordination only.</li>
+          <li>Shipped 10+ features in 6 months covering payments, task automation, and ops tooling — payment scheduling, auto statement delivery, file attachments, weekly previews, cost approval, portfolio tags, AI-integrated client notes, boleto auto-fill, and satisfaction surveys.</li>
+          <li>Defined validation rules for Pix, Boleto, and TED, including auto-split logic. Mapped all platform modules to define B2B SaaS pricing tiers.</li>
+        </ul>
+        <div class="tl-tags"><span>Figma</span><span>Lovable</span><span>Claude Design</span><span>Figma Make</span><span>Product Discovery</span><span>Product Strategy</span><span>PRDs</span><span>Sprint Planning</span><span>Payments</span><span>Generative AI</span><span>Jira</span><span>Datadog</span><span>Amplitude</span><span>Notion</span></div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-head">
+          <span class="tl-role">Product Manager</span>
+          <span class="tl-dates">Mar 2024 — Nov 2025</span>
+        </div>
+        <div class="tl-company"><a href="https://www.ploomes.com/" target="_blank" style="color:inherit; text-decoration:underline;">Ploomes ↗</a></div>
+        <div class="tl-company-blurb">Brazilian sales CRM, focused on simplifying and automating sales processes for small and medium businesses.</div>
+        <p><strong>Led a 13-person squad</strong> at a sales CRM — design, engineering, QA, and support.</p>
+        <ul class="tl-bullets">
+          <li>Drove <strong>R$100K+ in MRR</strong> from a single client by scoping, prioritizing, and launching a support-and-business-merge feature in 45 days.</li>
+          <li>Fully refactored the Funnel Selector, improving performance and usability and directly boosting customer satisfaction.</li>
+          <li>Cut the platform's overall search response time by <strong>75%</strong> by launching a full-featured global search, driven by usage data and feedback.</li>
+          <li>Implemented the company's first structured PRDs, using User Stories and the MoSCoW method.</li>
+          <li>Improved task and event usability, cutting hyperlink access from 5 clicks down to 1.</li>
+          <li>Prioritized quick wins through active management of customer requests, delivering fast value.</li>
+          <li>Mentored junior team members in stakeholder management, discovery, documentation, and career development.</li>
+        </ul>
+        <div class="tl-tags"><span>CRM</span><span>Stakeholder Management</span><span>Roadmap Planning</span><span>Mentorship</span><span>GA4</span><span>Notion</span><span>Jira</span><span>Confluence</span><span>SCRUM</span></div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-head">
+          <span class="tl-role">Product Manager · Associate PM</span>
+          <span class="tl-dates">May 2022 — Mar 2024</span>
+        </div>
+        <div class="tl-company"><a href="https://www.qulture.rocks/" target="_blank" style="color:inherit; text-decoration:underline;">Qulture.Rocks (UOL) ↗</a></div>
+        <div class="tl-company-blurb">Performance management and organizational culture platform, acquired by UOL — continuous feedback, reviews, and people development.</div>
+        <p><strong>Led the company's first churn study</strong>, guiding the 2024 strategy.</p>
+        <ul class="tl-bullets">
+          <li>Conceived and launched an action-plan reminder feature across two channels beyond the platform itself, increasing engagement with the PDP (professional development plan).</li>
+          <li>Led the company's first churn study: data collection and analysis, hypothesis validation, and direction for the 2024 strategy.</li>
+          <li>Managed Product Analytics platform migration projects and event structuring.</li>
+          <li>Co-led the rollout of a data-driven culture, providing insights for the product team's decisions.</li>
+          <li>As Associate PM: supported squad discovery and delivery, structured usage and adoption funnel dashboards, implemented a unified feedback process (sales, CS, and product), and created the company's metrics dictionary and product OKRs.</li>
+        </ul>
+        <div class="tl-tags"><span>Churn Analysis</span><span>Product Analytics</span><span>OKRs</span><span>Data-driven Decisions</span><span>Mixpanel</span><span>SQL</span><span>Data Analytics</span><span>Product Operations</span></div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-head">
+          <span class="tl-role">FP&A Analyst</span>
+          <span class="tl-dates">Aug 2021 — Apr 2022</span>
+        </div>
+        <div class="tl-company"><a href="https://www.linkedin.com/company/vmk-holding/" target="_blank" style="color:inherit; text-decoration:underline;">VMK Holding ↗</a></div>
+        <div class="tl-company-blurb">Holding company managing 60+ business units across Brazil — franchises like Cartão de TODOS and AMORSAÚDE — plus real estate and social-impact investments.</div>
+        <ul class="tl-bullets">
+          <li>Structured the budgeting process for 26 franchises within Grupo Todos — budget spreadsheets, projection assumptions, and budget-flow tracking.</li>
+          <li>Produced monthly results reports for dozens of business units and conducted economic-financial feasibility studies.</li>
+        </ul>
+        <div class="tl-tags"><span>Budget Planning</span><span>Financial Feasibility</span><span>Excel</span></div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-head">
+          <span class="tl-role">FP&A Assistant → Analyst</span>
+          <span class="tl-dates">Jul 2019 — Aug 2021</span>
+        </div>
+        <div class="tl-company"><a href="https://www.construtorastefani.com.br/" target="_blank" style="color:inherit; text-decoration:underline;">Construtora Stéfani ↗</a></div>
+        <div class="tl-company-blurb">Real estate developer and construction company focused on residential and commercial projects in Brazil.</div>
+        <ul class="tl-bullets">
+          <li>Conducted financial analysis for each real estate project, focused on key indicators, and prepared short- and long-term cash flow projections for 180 projects.</li>
+          <li>Built and maintained the Corporate Dashboard; audited accounting and management data, and created administrative reports via SQL from the Mega ERP.</li>
+          <li>Projected budgets and conducted GAP analyses for 180 projects and the group's holding companies.</li>
+          <li>Created a project to identify financial posting errors, tracking discrepancies in cost center, financial class, and project via query — producing more reliable management data.</li>
+        </ul>
+        <div class="tl-tags"><span>SQL</span><span>Cash Flow</span><span>Dashboards</span><span>Auditing</span></div>
+      </div>
+      <div class="tl-item origin">
+        <div class="tl-head">
+          <span class="tl-role">Business Economics and Controllership</span>
+          <span class="tl-dates">2017 — 2021</span>
+        </div>
+        <div class="tl-company">Universidade de São Paulo (USP)</div>
+        <p><strong>Where it all started: economics, data, and the analytical foundation I still carry today.</strong></p>
+        <ul class="tl-bullets">
+          <li>Student representative on the program's coordination committee, taking part in academic decisions and supporting fellow students.</li>
+          <li>President of Nexos Gestão Pública, a student organization focused on public management, and organizer of study groups.</li>
+        </ul>
+        <div class="tl-tags"><span>Economics</span><span>Controllership</span><span>Student Leadership</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORA DO TRABALHO -->
+<section class="personal section-pad" id="pessoal">
+  <div class="personal-inner">
+    <div class="section-label" style="justify-content:center; display:flex;">Outside work</div>
+    <p>Between 2021 and 2023 I was a digital nomad across Brazil — Maranhão, Piauí, Ceará, Paraná, Rio Grande do Sul, Santa Catarina, Rio de Janeiro, and most of São Paulo. I think it's <em>the same part of me</em> that likes stepping into a product with no trail already cut: moving cities every few months is also deciding without a map. These days I train to compete in open-water swimming — no lane, no wall to hold onto, just discipline and the decision to keep going. And I'm always in the middle of some novel; I can't resist systems and worlds too complex to put down, whether in a book or a product.</p>
+  </div>
+</section>
+
+<!-- CONVITE -->
+<section class="convite section-pad" id="convite">
+  <div class="convite-inner">
+    <div class="section-label" style="justify-content:center; display:flex;">Get in touch</div>
+    <h2>If the problem is hard, <span class="grad-text">call me</span>.</h2>
+    <p>I like talking through product, ambiguity, and teams that build without waiting for the path to be laid out. If that's your thing too, let's talk.</p>
+    <div class="convite-actions">
+      <a href="https://www.linkedin.com/in/carolinefgoncalves" class="btn-primary" target="_blank">in LinkedIn</a>
+      <a href="https://www.instagram.com/productbycarol" class="btn-ghost" target="_blank">@productbycarol</a>
+      <a href="cv-caroline-pt.pdf" class="btn-ghost" download>↓ Resume (PT)</a>
+      <a href="cv-caroline-en.pdf" class="btn-ghost" download>↓ Resume (EN)</a>
+    </div>
+    <p style="margin-top:22px; font-family: var(--mono); font-size: 0.85rem; color: var(--slate);">Email: carolinefg63@gmail.com</p>
+    <div class="badges">
+      <span class="badge">📍 São Paulo, Brazil</span>
+      <span class="badge">🏢 On-site · Hybrid · Remote</span>
+      <span class="badge">🌍 Available worldwide</span>
+      <span class="badge">✈️ Open to relocation</span>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Caroline Gonçalves</footer>
+
+</body>
+</html>
