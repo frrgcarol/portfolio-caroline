@@ -3,7 +3,12 @@
     "allow": [
       "PowerShell(gh --version)",
       "PowerShell(gh auth status 2>&1)",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "Bash(cd \"/c/Users/Operations/OneDrive/Desktop/Portfolio\" && ls -la; echo \"---downloads---\"; ls -lat ~/Downloads 2>/dev/null | head -20; echo \"---desktop---\"; ls -lat ~/Desktop 2>/dev/null | head -20)",
+      "Bash(find \"/c/Users/OPERAT~1/AppData/Local/Temp/claude\" -type f -newermt \"2026-08-05 16:40\" 2>/dev/null | head -50)",
+      "Bash(xargs -I{} ls -la {})",
+      "Bash(sort -k6,7)",
+      "Bash(grep -iv \"\\\\.output$\")"
     ]
   }
 }
