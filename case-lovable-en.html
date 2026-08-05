@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caroline Gonçalves — Case: Interactive Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void: #08090D;
+    --panel: #12131A;
+    --panel-hi: #181A24;
+    --line: rgba(255,255,255,0.08);
+    --line-hi: rgba(255,255,255,0.16);
+    --ink: #F4F5F8;
+    --slate: #8D8FA0;
+    --slate-dim: #5E6070;
+    --blue: #5B7FFF;
+    --violet: #A374FF;
+    --mint: #34D399;
+    --amber: #F5B454;
+
+    --display: 'Sora', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family: var(--body);
+    background: var(--void);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; text-decoration:none; }
+  @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important; } }
+
+  .grad-text{
+    background: linear-gradient(100deg, var(--blue) 10%, var(--violet) 90%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(8,9,13,0.78);
+    backdrop-filter: blur(16px) saturate(1.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner{
+    max-width: 900px; margin: 0 auto;
+    padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .back-link{
+    font-size: 0.86rem; font-weight: 500; color: var(--slate);
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover{ color: var(--ink); }
+  .contact-btn{
+    background: var(--panel-hi); color: var(--ink);
+    border: 1px solid var(--line-hi);
+    padding: 9px 18px; border-radius: 100px;
+    font-size: 0.84rem; font-weight: 500;
+    transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  }
+  .contact-btn:hover{ border-color: var(--blue); background: rgba(91,127,255,0.1); transform: translateY(-1px); }
+
+  main{ max-width: 780px; margin: 0 auto; padding: 70px 32px 60px; }
+
+  /* ---------- Case hero ---------- */
+  .case-eyebrow{
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+  }
+  .case-title{
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(1.9rem, 4.4vw, 2.7rem);
+    line-height: 1.16; letter-spacing: -0.015em; color: var(--ink);
+  }
+  .case-dek{
+    margin-top: 20px; font-size: 1.08rem; line-height: 1.62; color: var(--slate); max-width: 58ch;
+  }
+
+  /* ---------- TL;DR box ---------- */
+  .tldr{
+    margin-top: 44px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+  }
+  .tldr-item .k{
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--slate-dim); margin-bottom: 6px;
+  }
+  .tldr-item .v{ font-size: 0.92rem; font-weight: 600; color: var(--ink); line-height: 1.35; }
+  @media (max-width: 700px){ .tldr{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px){ .tldr{ grid-template-columns: 1fr; } }
+
+  /* ---------- Sections ---------- */
+  .case-section{ margin-top: 76px; }
+  .case-label{
+    font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--violet); margin-bottom: 16px;
+  }
+  .case-heading{
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.4rem, 2.6vw, 1.75rem);
+    letter-spacing: -0.01em; margin-bottom: 22px; color: var(--ink);
+  }
+  .case-section p{
+    font-size: 1.02rem; line-height: 1.75; color: #C7C9D6; margin-bottom: 18px;
+  }
+  .case-section p:last-child{ margin-bottom: 0; }
+  .case-section strong{ color: var(--ink); font-weight: 600; }
+
+  .quote-pull{
+    margin: 32px 0; padding: 24px 28px;
+    border-left: 2px solid var(--blue);
+    background: var(--panel);
+    border-radius: 0 12px 12px 0;
+    font-family: var(--display); font-weight: 500; font-style: normal;
+    font-size: 1.1rem; line-height: 1.5; color: var(--ink);
+  }
+
+  /* ---------- Before/After ---------- */
+  .compare{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px;
+  }
+  .compare-col{
+    border-radius: 16px; padding: 26px 24px; border: 1px solid var(--line);
+  }
+  .compare-col.before{ background: rgba(245,180,84,0.05); border-color: rgba(245,180,84,0.22); }
+  .compare-col.after{ background: rgba(52,211,153,0.05); border-color: rgba(52,211,153,0.22); }
+  .compare-tag{
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 14px; display: inline-block; padding: 4px 10px; border-radius: 100px;
+  }
+  .before .compare-tag{ color: var(--amber); background: rgba(245,180,84,0.12); }
+  .after .compare-tag{ color: var(--mint); background: rgba(52,211,153,0.12); }
+  .compare-col ul{ list-style: none; }
+  .compare-col li{
+    font-size: 0.92rem; line-height: 1.55; color: #C7C9D6;
+    padding-left: 18px; position: relative; margin-bottom: 12px;
+  }
+  .compare-col li:last-child{ margin-bottom: 0; }
+  .compare-col li::before{
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 5px; height: 5px; border-radius: 50%;
+  }
+  .before li::before{ background: var(--amber); }
+  .after li::before{ background: var(--mint); }
+  @media (max-width: 640px){ .compare{ grid-template-columns: 1fr; } }
+
+  /* ---------- Feature list ---------- */
+  .feature-grid{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px;
+  }
+  .feature-card{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 22px 22px; transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .feature-card:hover{ border-color: rgba(91,127,255,0.35); transform: translateY(-2px); }
+  .feature-card .fnum{
+    font-family: var(--mono); font-size: 0.74rem; color: var(--blue); margin-bottom: 10px;
+  }
+  .feature-card h4{
+    font-family: var(--display); font-weight: 600; font-size: 0.98rem; margin-bottom: 8px; color: var(--ink);
+  }
+  .feature-card p{ font-size: 0.86rem; line-height: 1.55; color: var(--slate); margin: 0; }
+  @media (max-width: 640px){ .feature-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- Flow diagram ---------- */
+  .flow{
+    margin-top: 10px; display: flex; align-items: stretch; gap: 0; flex-wrap: wrap;
+  }
+  .flow-step{
+    flex: 1; min-width: 130px;
+    background: var(--panel); border: 1px solid var(--line);
+    padding: 18px 16px; text-align: center; position: relative;
+  }
+  .flow-step:first-child{ border-radius: 14px 0 0 14px; }
+  .flow-step:last-child{ border-radius: 0 14px 14px 0; }
+  .flow-step .fs-num{
+    font-family: var(--mono); font-size: 0.7rem; color: var(--violet); margin-bottom: 8px;
+  }
+  .flow-step .fs-label{ font-size: 0.82rem; color: var(--ink); font-weight: 500; line-height: 1.4; }
+  .flow-arrow{
+    display: flex; align-items: center; justify-content: center;
+    color: var(--slate-dim); font-size: 1rem; padding: 0 6px;
+  }
+  @media (max-width: 640px){
+    .flow{ flex-direction: column; }
+    .flow-step:first-child, .flow-step:last-child{ border-radius: 14px; }
+    .flow-arrow{ transform: rotate(90deg); padding: 4px 0; }
+  }
+
+  /* ---------- Impact stats ---------- */
+  .impact-row{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 8px; }
+  .impact-stat{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px 20px;
+  }
+  .impact-stat .num{
+    font-family: var(--mono); font-weight: 500; font-size: 1.5rem;
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .impact-stat .lbl{ margin-top: 8px; font-size: 0.82rem; color: var(--slate); line-height: 1.4; }
+  @media (max-width: 640px){ .impact-row{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px){ .impact-row{ grid-template-columns: 1fr; } }
+
+  /* ---------- Calc box ---------- */
+  .calc-box{
+    margin-top: 24px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px 28px;
+    font-family: var(--mono); font-size: 0.88rem; line-height: 1.9; color: var(--slate);
+  }
+  .calc-box .cline{ display: flex; justify-content: space-between; gap: 20px; max-width: 420px; flex-wrap: wrap; }
+  .calc-box .cline .cval{ color: var(--ink); }
+  .calc-box hr{ border: none; border-top: 1px solid var(--line); margin: 10px 0; max-width: 420px; }
+  .calc-box .cresult{ display: flex; justify-content: space-between; gap: 20px; max-width: 420px; }
+  .calc-box .cresult .cval{
+    font-weight: 500;
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .calc-note{ font-size: 0.78rem; color: var(--slate-dim); margin-top: 14px; font-family: var(--body); line-height: 1.6; }
+
+  /* ---------- Reflection box ---------- */
+  .reflection{
+    background: linear-gradient(160deg, rgba(163,116,255,0.06), transparent);
+    border: 1px solid rgba(163,116,255,0.2);
+    border-radius: 18px;
+    padding: 32px 32px;
+  }
+  .reflection .case-label{ margin-bottom: 12px; }
+
+  /* ---------- Case nav footer ---------- */
+  .case-footer{
+    margin-top: 90px; padding-top: 40px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+  }
+  .next-case{ font-size: 0.9rem; color: var(--slate); }
+  .next-case a{ color: var(--ink); font-weight: 600; margin-left: 6px; }
+  .next-case a:hover{ color: var(--blue); }
+
+  footer.site-footer{
+    padding: 30px 32px; border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 0.75rem; color: var(--slate-dim); text-align: center;
+  }
+
+  .proto-note{
+    background: linear-gradient(100deg, var(--blue), var(--violet)); color: #fff; text-align: center;
+    font-family: var(--mono); font-size: 0.78rem; padding: 10px; letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="header-inner">
+    <a href="index-en.html#jornadas" class="back-link">← All journeys</a>
+    <a href="index-en.html#convite" class="contact-btn">Get in touch →</a>
+  </div>
+</header>
+
+<main>
+
+  <div class="case-eyebrow">
+    <span>Journey 01</span> · <span>Tempo</span> · <span>Product · AI · Ops</span>
+  </div>
+  <h1 class="case-title">No one was going to prioritize this feature. I solved it myself.</h1>
+  <p class="case-dek">
+    How a low-priority roadmap item — but a high-drain one for the ops team — became an interactive product I built myself, without waiting for a slot in the engineering queue.
+  </p>
+
+  <div class="tldr">
+    <div class="tldr-item">
+      <div class="k">My role</div>
+      <div class="v">PM, designer, and builder — solo</div>
+    </div>
+    <div class="tldr-item">
+      <div class="k">Tool</div>
+      <div class="v">Lovable, from scratch</div>
+    </div>
+    <div class="tldr-item">
+      <div class="k">Approach</div>
+      <div class="v">Built independently</div>
+    </div>
+    <div class="tldr-item">
+      <div class="k">Result</div>
+      <div class="v">150h → 15h/week</div>
+    </div>
+  </div>
+
+  <!-- CONTEXTO -->
+  <section class="case-section">
+    <div class="case-label">Context</div>
+    <h2 class="case-heading">How the ops team handled requests with options</h2>
+    <p>
+      Tempo is a Brazilian platform that organizes clients' day-to-day finances and tasks — payments, purchases, quotes, scheduling — through human ops staff working over WhatsApp, backed by AI. When a request had <strong>multiple options to choose from</strong> (products, quotes, flights), the ops person would paste the product link into a template feature, which generated a PDF with the options for the client to decide.
+    </p>
+    <p>
+      When the link came from a site without <em>scraping</em> protection — the technique of automatically pulling info from a page, like price, image, and description, without manually copying it all — it worked out of the box. The problem started when the site blocked that kind of extraction.
+    </p>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section class="case-section">
+    <div class="case-label">The problem</div>
+    <h2 class="case-heading">A PDF that almost no one could edit quickly</h2>
+    <p>
+      When the site blocked scraping — which happened often — the ops person had to open a generic PDF editor and build the template from scratch: create each text box, paste the info, pick a font, position everything on the page. If the product text ran long, the layout broke and they had to rearrange everything by hand again. A simple template could take <strong>over 30 minutes</strong> just on that manual formatting work.
+    </p>
+    <p>
+      That time carried a cost beyond the annoyance: it was time the ops person wasn't spending on what actually mattered to the client — finding the right product, comparing options, understanding what they needed — because they were stuck formatting text in a PDF editor.
+    </p>
+    <p>
+      The ops team complained a lot, especially about the manual cases. But looking at the roadmap, this feature wasn't a priority: improving it in its existing format demanded significant engineering effort for something that moved none of the metrics the team tracked closely.
+    </p>
+    <div class="quote-pull">
+      Low impact on the metrics, high drain on operations — the kind of problem that stays invisible in any metric-based prioritization, but that blocks people every single day.
+    </div>
+  </section>
+
+  <!-- ABORDAGEM -->
+  <section class="case-section">
+    <div class="case-label">What I decided to do</div>
+    <h2 class="case-heading">If it wasn't going into the queue, I'd build it outside of it</h2>
+    <p>
+      As Tempo's sole PM, owning the product end-to-end, I already design my own screens in Figma and Lovable (an AI product-building tool, no code required). So instead of fighting for a slot in an engineering queue for an incremental improvement to an old system, I decided to <strong>scrap the existing feature and build a new one from scratch</strong> on my own.
+    </p>
+    <p>
+      The only dependency on the engineering team was a small one: asking a dev to make it so that clicking the feature icon in the Cockpit (the internal panel where the ops team works) redirected straight to my app.
+    </p>
+  </section>
+
+  <!-- O QUE FOI CONSTRUÍDO -->
+  <section class="case-section">
+    <div class="case-label">What I built</div>
+    <h2 class="case-heading">From "paste a link and hope" to a real template builder</h2>
+    <p>The new version handled both the easy path and the hard one — and went beyond what the old feature could do:</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fnum">01</div>
+        <h4>Automatic layout</h4>
+        <p>The app repositioned and resized everything on its own, even with longer text. The ops person just filled in the data — no text boxes, fonts, or manual layout wrangling.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fnum">02</div>
+        <h4>Link or fast manual entry</h4>
+        <p>Pasting the link still worked when the site allowed it. When it didn't, manual entry became fast — not a 30-minute-plus process.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fnum">03</div>
+        <h4>Multiple photos per product</h4>
+        <p>Just paste each image URL — the ops person could build a full carousel in almost no time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fnum">04</div>
+        <h4>Custom fields</h4>
+        <p>For specific quotes ("does this car wash offer X or not?"), you could add a field just for that question — flexibility the old PDF never had.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fnum">05</div>
+        <h4>CSV import, as a table</h4>
+        <p>For cases like flight options, you could paste a CSV and generate the template as a table right away — faster to scan than cards.</p>
+      </div>
+    </div>
+
+    <h2 class="case-heading" style="margin-top:48px;">And the end result was no longer a static PDF</h2>
+    <p>It became an interactive link: the client picked their preferred option right there, and the choice flowed straight back to Tempo's WhatsApp — the ops person already saw the decision without needing to ask again.</p>
+
+    <div class="flow">
+      <div class="flow-step"><div class="fs-num">01</div><div class="fs-label">Ops person builds the template in my app</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fs-num">02</div><div class="fs-label">Interactive link is sent to the client</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fs-num">03</div><div class="fs-label">Client picks the option on the link</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fs-num">04</div><div class="fs-label">Choice flows back to WhatsApp automatically</div></div>
+    </div>
+  </section>
+
+  <!-- ANTES / DEPOIS -->
+  <section class="case-section">
+    <div class="case-label">Before and after</div>
+    <h2 class="case-heading">What actually changed for daily users</h2>
+    <div class="compare">
+      <div class="compare-col before">
+        <span class="compare-tag">Before</span>
+        <ul>
+          <li>Static PDF, no client interaction</li>
+          <li>Layout built by hand: text box, font, position</li>
+          <li>Rearrange everything again if the text didn't fit</li>
+          <li>Over 30 minutes per template</li>
+          <li>Client's choice didn't flow back — someone had to check and relay it</li>
+          <li>Editing after the fact meant redoing most of the manual work</li>
+          <li>No custom fields</li>
+          <li>No table option for long lists</li>
+        </ul>
+      </div>
+      <div class="compare-col after">
+        <span class="compare-tag">After</span>
+        <ul>
+          <li>Interactive link — client chooses directly</li>
+          <li>Layout repositions and resizes on its own</li>
+          <li>Fast manual entry when needed</li>
+          <li>Template ready in under 3 minutes</li>
+          <li>Client's choice flows back to the ops WhatsApp automatically</li>
+          <li>Easy to edit afterward, if something needed adjusting</li>
+          <li>Custom fields per request</li>
+          <li>CSV table mode for lists (e.g. flights)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACTO -->
+  <section class="case-section">
+    <div class="case-label">Impact</div>
+    <h2 class="case-heading">A small problem on paper, big at scale</h2>
+    <p>
+      In isolation, saving time on one template seems minor. But each of the 30 ops staff generated an average of 2 templates a day — around <strong>300 templates a week</strong> across the whole operation. Applying the before-and-after time to that volume gives a real sense of the problem's size:
+    </p>
+    <div class="calc-box">
+      <div class="cline"><span>300 templates/week × 30 min (before)</span> <span class="cval">≈ 150h/week</span></div>
+      <div class="cline"><span>300 templates/week × 3 min (after)</span> <span class="cval">≈ 15h/week</span></div>
+      <hr>
+      <div class="cresult"><span>Estimated reduction</span> <span class="cval">-90%</span></div>
+    </div>
+    <div class="impact-row" style="margin-top:28px;">
+      <div class="impact-stat">
+        <div class="num">-90%</div>
+        <div class="lbl">Estimated weekly time spent on templates</div>
+      </div>
+      <div class="impact-stat">
+        <div class="num">300/wk</div>
+        <div class="lbl">Templates generated per week across the operation</div>
+      </div>
+      <div class="impact-stat">
+        <div class="num">0</div>
+        <div class="lbl">Engineering sprints spent building the feature</div>
+      </div>
+      <div class="impact-stat">
+        <div class="num">100%</div>
+        <div class="lbl">Of the old feature replaced — nothing of the old format remained</div>
+      </div>
+    </div>
+    <p style="margin-top:28px;">
+      Beyond the time saved, the ops team's recurring complaints about this feature simply stopped. And when the occasional bug appeared after launch, I went into the code myself, fixed it, and shipped the change.
+    </p>
+  </section>
+
+  <!-- O QUE EU FARIA DIFERENTE -->
+  <section class="case-section reflection">
+    <div class="case-label">What I'd do differently</div>
+    <h2 class="case-heading">Partial metrics — I have the volume, not the conversion</h2>
+    <p>
+      I know how many templates get created, but I never instrumented more robust metrics: how many clients actually engaged with the link before deciding, how many purchases it generated, and I don't have a direct before-and-after comparison. What I have most strongly is qualitative — the ops team's complaints about this feature simply vanished, and I got several unprompted shout-outs in the company's internal channels because of it. Next time, I'd design that tracking from day one, so I could back up the impact with numbers, not just perception.
+    </p>
+  </section>
+
+  <div class="case-footer">
+    <a href="index-en.html#jornadas" class="back-link">← All journeys</a>
+    <div class="next-case">Next journey <a href="case-payments-en.html">Devs stopped investigating payment errors →</a></div>
+  </div>
+
+</main>
+
+<footer class="site-footer">© 2026 Caroline Gonçalves</footer>
+
+</body>
+</html>
