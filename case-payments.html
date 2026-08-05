@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caroline Gonçalves — Case: Central de Operações de Pagamento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void: #08090D;
+    --panel: #12131A;
+    --panel-hi: #181A24;
+    --line: rgba(255,255,255,0.08);
+    --line-hi: rgba(255,255,255,0.16);
+    --ink: #F4F5F8;
+    --slate: #8D8FA0;
+    --slate-dim: #5E6070;
+    --blue: #5B7FFF;
+    --violet: #A374FF;
+    --mint: #34D399;
+    --amber: #F5B454;
+
+    --display: 'Sora', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family: var(--body);
+    background: var(--void);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; text-decoration:none; }
+  @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important; } }
+
+  .grad-text{
+    background: linear-gradient(100deg, var(--blue) 10%, var(--violet) 90%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(8,9,13,0.78);
+    backdrop-filter: blur(16px) saturate(1.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner{
+    max-width: 900px; margin: 0 auto;
+    padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .back-link{
+    font-size: 0.86rem; font-weight: 500; color: var(--slate);
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover{ color: var(--ink); }
+  .contact-btn{
+    background: var(--panel-hi); color: var(--ink);
+    border: 1px solid var(--line-hi);
+    padding: 9px 18px; border-radius: 100px;
+    font-size: 0.84rem; font-weight: 500;
+    transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  }
+  .contact-btn:hover{ border-color: var(--blue); background: rgba(91,127,255,0.1); transform: translateY(-1px); }
+
+  main{ max-width: 780px; margin: 0 auto; padding: 70px 32px 60px; }
+
+  /* ---------- Case hero ---------- */
+  .case-eyebrow{
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+  }
+  .case-title{
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(1.9rem, 4.4vw, 2.7rem);
+    line-height: 1.16; letter-spacing: -0.015em; color: var(--ink);
+  }
+  .case-dek{
+    margin-top: 20px; font-size: 1.08rem; line-height: 1.62; color: var(--slate); max-width: 58ch;
+  }
+
+  /* ---------- TL;DR box ---------- */
+  .tldr{
+    margin-top: 44px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+  }
+  .tldr-item .k{
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--slate-dim); margin-bottom: 6px;
+  }
+  .tldr-item .v{ font-size: 0.92rem; font-weight: 600; color: var(--ink); line-height: 1.35; }
+  @media (max-width: 700px){ .tldr{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px){ .tldr{ grid-template-columns: 1fr; } }
+
+  /* ---------- Sections ---------- */
+  .case-section{ margin-top: 76px; }
+  .case-label{
+    font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--violet); margin-bottom: 16px;
+  }
+  .case-heading{
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.4rem, 2.6vw, 1.75rem);
+    letter-spacing: -0.01em; margin-bottom: 22px; color: var(--ink);
+  }
+  .case-section p{
+    font-size: 1.02rem; line-height: 1.75; color: #C7C9D6; margin-bottom: 18px;
+  }
+  .case-section p:last-child{ margin-bottom: 0; }
+  .case-section strong{ color: var(--ink); font-weight: 600; }
+
+  .quote-pull{
+    margin: 32px 0; padding: 24px 28px;
+    border-left: 2px solid var(--blue);
+    background: var(--panel);
+    border-radius: 0 12px 12px 0;
+    font-family: var(--display); font-weight: 500; font-style: normal;
+    font-size: 1.1rem; line-height: 1.5; color: var(--ink);
+  }
+
+  /* ---------- Before/After ---------- */
+  .compare{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px;
+  }
+  .compare-col{
+    border-radius: 16px; padding: 26px 24px; border: 1px solid var(--line);
+  }
+  .compare-col.before{ background: rgba(245,180,84,0.05); border-color: rgba(245,180,84,0.22); }
+  .compare-col.after{ background: rgba(52,211,153,0.05); border-color: rgba(52,211,153,0.22); }
+  .compare-tag{
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 14px; display: inline-block; padding: 4px 10px; border-radius: 100px;
+  }
+  .before .compare-tag{ color: var(--amber); background: rgba(245,180,84,0.12); }
+  .after .compare-tag{ color: var(--mint); background: rgba(52,211,153,0.12); }
+  .compare-col ul{ list-style: none; }
+  .compare-col li{
+    font-size: 0.92rem; line-height: 1.55; color: #C7C9D6;
+    padding-left: 18px; position: relative; margin-bottom: 12px;
+  }
+  .compare-col li:last-child{ margin-bottom: 0; }
+  .compare-col li::before{
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 5px; height: 5px; border-radius: 50%;
+  }
+  .before li::before{ background: var(--amber); }
+  .after li::before{ background: var(--mint); }
+  @media (max-width: 640px){ .compare{ grid-template-columns: 1fr; } }
+
+  /* ---------- Feature list ---------- */
+  .feature-grid{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px;
+  }
+  .feature-card{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 22px 22px; transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .feature-card:hover{ border-color: rgba(91,127,255,0.35); transform: translateY(-2px); }
+  .feature-card .fnum{
+    font-family: var(--mono); font-size: 0.74rem; color: var(--blue); margin-bottom: 10px;
+  }
+  .feature-card h4{
+    font-family: var(--display); font-weight: 600; font-size: 0.98rem; margin-bottom: 8px; color: var(--ink);
+  }
+  .feature-card p{ font-size: 0.86rem; line-height: 1.55; color: var(--slate); margin: 0; }
+  @media (max-width: 640px){ .feature-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- Flow diagram ---------- */
+  .flow{
+    margin-top: 10px; display: flex; align-items: stretch; gap: 0; flex-wrap: wrap;
+  }
+  .flow-step{
+    flex: 1; min-width: 130px;
+    background: var(--panel); border: 1px solid var(--line);
+    padding: 18px 16px; text-align: center; position: relative;
+  }
+  .flow-step:first-child{ border-radius: 14px 0 0 14px; }
+  .flow-step:last-child{ border-radius: 0 14px 14px 0; }
+  .flow-step .fs-num{
+    font-family: var(--mono); font-size: 0.7rem; color: var(--violet); margin-bottom: 8px;
+  }
+  .flow-step .fs-label{ font-size: 0.82rem; color: var(--ink); font-weight: 500; line-height: 1.4; }
+  .flow-arrow{
+    display: flex; align-items: center; justify-content: center;
+    color: var(--slate-dim); font-size: 1rem; padding: 0 6px;
+  }
+  @media (max-width: 640px){
+    .flow{ flex-direction: column; }
+    .flow-step:first-child, .flow-step:last-child{ border-radius: 14px; }
+    .flow-arrow{ transform: rotate(90deg); padding: 4px 0; }
+  }
+
+  /* ---------- Impact stats ---------- */
+  .impact-row{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 8px; }
+  .impact-stat{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px 20px;
+  }
+  .impact-stat .num{
+    font-family: var(--mono); font-weight: 500; font-size: 1.5rem;
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .impact-stat .lbl{ margin-top: 8px; font-size: 0.82rem; color: var(--slate); line-height: 1.4; }
+  @media (max-width: 640px){ .impact-row{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px){ .impact-row{ grid-template-columns: 1fr; } }
+
+  /* ---------- Calc box ---------- */
+  .calc-box{
+    margin-top: 24px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px 28px;
+    font-family: var(--mono); font-size: 0.88rem; line-height: 1.9; color: var(--slate);
+  }
+  .calc-box .cline{ display: flex; justify-content: space-between; gap: 20px; max-width: 420px; flex-wrap: wrap; }
+  .calc-box .cline .cval{ color: var(--ink); }
+  .calc-box hr{ border: none; border-top: 1px solid var(--line); margin: 10px 0; max-width: 420px; }
+  .calc-box .cresult{ display: flex; justify-content: space-between; gap: 20px; max-width: 420px; }
+  .calc-box .cresult .cval{
+    font-weight: 500;
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .calc-note{ font-size: 0.78rem; color: var(--slate-dim); margin-top: 14px; font-family: var(--body); line-height: 1.6; }
+
+  /* ---------- Reflection box ---------- */
+  .reflection{
+    background: linear-gradient(160deg, rgba(163,116,255,0.06), transparent);
+    border: 1px solid rgba(163,116,255,0.2);
+    border-radius: 18px;
+    padding: 32px 32px;
+  }
+  .reflection .case-label{ margin-bottom: 12px; }
+
+  /* ---------- Case nav footer ---------- */
+  .case-footer{
+    margin-top: 90px; padding-top: 40px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+  }
+  .next-case{ font-size: 0.9rem; color: var(--slate); }
+  .next-case a{ color: var(--ink); font-weight: 600; margin-left: 6px; }
+  .next-case a:hover{ color: var(--blue); }
+
+  footer.site-footer{
+    padding: 30px 32px; border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 0.75rem; color: var(--slate-dim); text-align: center;
+  }
+
+  .proto-note{
+    background: linear-gradient(100deg, var(--blue), var(--violet)); color: #fff; text-align: center;
+    font-family: var(--mono); font-size: 0.78rem; padding: 10px; letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-note">PROTÓTIPO — página de case individual (Jornada 02)</div>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html#jornadas" class="back-link">← Todas as jornadas</a>
+    <a href="index.html#convite" class="contact-btn">Entre em contato →</a>
+  </div>
+</header>
+
+<main>
+
+  <div class="case-eyebrow">
+    <span>Jornada 02</span> · <span>Tempo</span> · <span>Produto · Discovery · Pagamentos</span>
+  </div>
+  <h1 class="case-title">Os devs paravam de codar pra investigar erro de pagamento. Agora usam esse tempo pra evoluir o produto.</h1>
+  <p class="case-dek">
+    Como uma tela de notificações obsoleta virou uma central de operações — dando à equipe independência pra resolver erros de pagamento sozinha, e automação no WhatsApp pra manter o cliente informado e o processo fluindo.
+  </p>
+
+  <div class="tldr">
+    <div class="tldr-item">
+      <div class="k">Meu papel</div>
+      <div class="v">Discovery, PRD e design — sozinha</div>
+    </div>
+    <div class="tldr-item">
+      <div class="k">Ferramenta</div>
+      <div class="v">Protótipo completo no Lovable</div>
+    </div>
+    <div class="tldr-item">
+      <div class="k">Discovery</div>
+      <div class="v">2 semanas</div>
+    </div>
+    <div class="tldr-item">
+      <div class="k">Resultado</div>
+      <div class="v">Devs trocaram apagar incêndio por evoluir produto</div>
+    </div>
+  </div>
+
+  <!-- CONTEXTO -->
+  <section class="case-section">
+    <div class="case-label">Contexto</div>
+    <h2 class="case-heading">Como a Tempo decide entre resolver sozinha ou chamar um humano</h2>
+    <p>
+      A Tempo funciona como um concierge via WhatsApp: o cliente pede algo, e uma IA faz a triagem entre <strong>pagamento</strong> ou <strong>tarefa</strong>. Se é pagamento, a IA tenta executar sozinha. Se é tarefa, a IA pergunta as informações que faltam — seguindo um checklist que ela mesma identifica pelo tipo de tarefa — até ter o suficiente pra criar a tarefa no kanban de uma assistente humana resolver.
+    </p>
+    <p>
+      Pra acompanhar tudo isso, as assistentes tinham uma tela de notificações no Cockpit (o painel interno), dividida em três colunas: conversas não lidas, notificações de tarefa, e pagamentos a vencer ou vencidos nos últimos 3 dias — além de lembretes que o cliente podia adicionar ao calendário.
+    </p>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section class="case-section">
+    <div class="case-label">O problema</div>
+    <h2 class="case-heading">Uma tela que ficou obsoleta, e faltava exatamente a informação mais crítica</h2>
+    <p>
+      Essa tela de notificações só fazia sentido pra pagamentos com envio manual. Conforme fomos automatizando mais envios, ela foi ficando cada vez menos útil — e um pagamento executado não saía da lista automaticamente, o que já dificultava o acompanhamento.
+    </p>
+    <p>
+      Mas o problema maior era outro: quando um pagamento dava erro, a informação não aparecia em lugar nenhum acessível. A assistente só descobria se o cliente reclamasse. Daí precisava caçar o pagamento específico dentro da tela daquele cliente, sem nenhuma tradução do erro técnico, e quase sempre precisava chamar um dev pra investigar o que tinha acontecido no código.
+    </p>
+    <div class="quote-pull">
+      Isso gerava insatisfação do cliente, sobrecarregava os devs — que paravam de desenvolver pra investigar erro — e deixava as assistentes constantemente perdidas. E cada erro parado também significava dinheiro parado: quanto mais rápido resolvido, mais rápido o valor voltava a circular na plataforma.
+    </div>
+  </section>
+
+  <!-- DISCOVERY -->
+  <section class="case-section">
+    <div class="case-label">Discovery</div>
+    <h2 class="case-heading">O problema real não era a notificação — era trocar de tela</h2>
+    <p>
+      Parte desse diagnóstico veio de discovery contínuo: eu lia os chamados das assistentes diariamente e já vinha ouvindo reclamações ao longo do tempo. Mas o estalo definitivo veio de sentar do lado delas e observar o trabalho de verdade — um processo estruturado de cerca de <strong>duas semanas</strong>, entre observação, mapeamento de erros com a instituição financeira, escrita do PRD e validação com as próprias assistentes.
+    </p>
+    <p>
+      As assistentes trabalhavam num único monitor, geralmente pequeno. Não existia um header de notificações visível em qualquer tela da plataforma — então, pra resolver um pagamento, elas precisavam sair da Home, abrir a tela de Pagamentos daquele cliente específico, resolver, e voltar. Isso significava abrir excesso de abas e se perder no meio do processo constantemente.
+    </p>
+    <p>
+      A primeira solução óbvia seria um header de notificações global — mas tecnicamente era caro demais pra construir do zero naquele momento. Então o desafio virou outro: como adaptar a tela que já existia pra resolver o problema real.
+    </p>
+    <div class="quote-pull">
+      O problema não era "falta uma notificação melhor". Era "elas não podem se dar ao luxo de trocar de tela pra resolver qualquer coisa".
+    </div>
+  </section>
+
+  <!-- A VIRADA -->
+  <section class="case-section">
+    <div class="case-label">A virada</div>
+    <h2 class="case-heading">Se não podia ser um header global, virava uma central de operações</h2>
+    <p>
+      Em vez de só melhorar a notificação existente, decidi transformar o conceito da tela inteira: de uma tela de avisos, para uma <strong>tela de operações</strong> — onde a assistente pudesse ver e resolver tudo sem nunca precisar sair dali.
+    </p>
+  </section>
+
+  <!-- O QUE FOI CONSTRUÍDO -->
+  <section class="case-section">
+    <div class="case-label">O que eu construí</div>
+    <h2 class="case-heading">Layout que se molda ao que a assistente está fazendo</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fnum">01</div>
+        <h4>Duas colunas redimensionáveis</h4>
+        <p>Conversas de um lado, notificações do outro (com abas de tarefas, pagamentos e lembretes). Clicar numa conversa minimiza as notificações; clicar numa notificação minimiza a conversa.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fnum">02</div>
+        <h4>Resolução sem trocar de tela</h4>
+        <p>Ao clicar numa conversa, ela abria ali mesmo, sem sair pra tela do cliente. Ao clicar num pagamento, todas as ações de resolução ficavam disponíveis na hora.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fnum">03</div>
+        <h4>28 erros de pagamento mapeados</h4>
+        <p>Fui na documentação da instituição financeira (Celcoin) e mapeei todos os erros possíveis entre Pix, Boleto e TED, com a ação certa pra cada um — reenviar, "desexpirar", editar informação faltante, entre outras.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fnum">04</div>
+        <h4>Erro técnico traduzido em ação humana</h4>
+        <p>O nome da notificação já explicava o problema (ex: "Pagamento com informações faltando"), com valor, cliente e data visíveis — e a instrução de como resolver logo abaixo.</p>
+      </div>
+    </div>
+
+    <h2 class="case-heading" style="margin-top:48px;">PRD como ponte com a engenharia</h2>
+    <p>
+      Diferente do <a href="case-lovable.html" style="color:var(--blue); text-decoration:underline;">case dos templates</a>, aqui eu não construí a versão final sozinha — precisava da engenharia pra integrar com os dados reais de pagamento. Então escrevi no PRD uma tabela com cada um dos 28 erros: título, explicação, e a ação disponível para cada caso. Pra eliminar qualquer ambiguidade, também repliquei todos os erros dentro de um protótipo completo no Lovable, pra que os devs vissem exatamente como cada tela deveria se comportar antes de implementar.
+    </p>
+
+    <div class="flow">
+      <div class="flow-step"><div class="fs-num">01</div><div class="fs-label">Erro acontece no pagamento</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fs-num">02</div><div class="fs-label">Notificação traduzida aparece na central</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fs-num">03</div><div class="fs-label">Assistente vê contexto completo, sem trocar de tela</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fs-num">04</div><div class="fs-label">Resolve a ação certa ali mesmo</div></div>
+    </div>
+  </section>
+
+  <!-- FECHANDO O LOOP COM IA -->
+  <section class="case-section">
+    <div class="case-label">Fechando o loop com IA</div>
+    <h2 class="case-heading">Automatizar o que não precisava de humano de jeito nenhum</h2>
+    <p>
+      Depois da tela pronta, automatizei o que fazia sentido resolver direto no WhatsApp, sem depender da assistente. Quando faltava um dia para o envio de um pagamento e alguma informação estava incompleta, a IA cobrava o cliente automaticamente. Se ele não respondesse em algumas horas, a IA cobrava de novo — e só aí gerava a notificação pra assistente agir com mais força.
+    </p>
+    <p>
+      Quando um erro acontecia, a IA já avisava o cliente proativamente, com a ação sugerida: <em>"esse pagamento não pôde ser feito porque estava fora do horário de envio de boletos — deseja agendar para o próximo horário útil?"</em> Isso deixava pra assistente humana só o que a IA de fato não conseguia resolver sozinha — sem inundar a fila dela com casos que a IA já tinha dado conta.
+    </p>
+  </section>
+
+  <!-- ANTES / DEPOIS -->
+  <section class="case-section">
+    <div class="case-label">Antes e depois</div>
+    <h2 class="case-heading">De "chama um dev" pra "a assistente resolve sozinha"</h2>
+    <div class="compare">
+      <div class="compare-col before">
+        <span class="compare-tag">Antes</span>
+        <ul>
+          <li>Erro só descoberto quando o cliente reclamava</li>
+          <li>Sem tradução do erro técnico</li>
+          <li>Dependência constante de um dev pra investigar</li>
+          <li>Notificações e resolução em telas separadas</li>
+          <li>Tela útil só pra pagamentos manuais</li>
+        </ul>
+      </div>
+      <div class="compare-col after">
+        <span class="compare-tag">Depois</span>
+        <ul>
+          <li>Erro aparece na hora, com contexto completo</li>
+          <li>Erro técnico traduzido em ação clara</li>
+          <li>Assistente resolve sozinha, sem chamar dev</li>
+          <li>Notificação e resolução na mesma tela</li>
+          <li>IA resolve parte dos casos direto no WhatsApp</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACTO -->
+  <section class="case-section">
+    <div class="case-label">Impacto</div>
+    <h2 class="case-heading">De apagar incêndio a evoluir o produto</h2>
+    <div class="impact-row">
+      <div class="impact-stat">
+        <div class="num">28</div>
+        <div class="lbl">Erros de pagamento mapeados entre Pix, Boleto e TED</div>
+      </div>
+      <div class="impact-stat">
+        <div class="num">~1 mês</div>
+        <div class="lbl">Do discovery com as assistentes ao lançamento da tela</div>
+      </div>
+      <div class="impact-stat">
+        <div class="num">0</div>
+        <div class="lbl">Chamados de investigação de erro pros devs, depois do lançamento</div>
+      </div>
+    </div>
+    <p style="margin-top:28px;">
+      As assistentes deixaram de depender da engenharia pra entender o que tinha acontecido com um pagamento — e passaram a ter controle completo pra resolver, direto na tela. O tempo que os devs antes gastavam investigando erro no código voltou pra onde deveria estar: evoluindo e melhorando o resto do produto.
+    </p>
+  </section>
+
+  <!-- O QUE EU FARIA DIFERENTE -->
+  <section class="case-section reflection">
+    <div class="case-label">O que eu faria diferente</div>
+    <h2 class="case-heading">A ordem de lançamento gerou retrabalho que dava pra evitar</h2>
+    <p>
+      Lancei a tela de operações primeiro, e só depois a parte de IA detectando erro e agindo direto no WhatsApp. Fizemos nessa ordem porque a falta de visibilidade de pagamento já estava gerando perda financeira real, então centralizar essa informação era urgente. Mas, na prática, a tela levou cerca de um mês do discovery até o lançamento, contando o tempo de desenvolvimento — e gerou algum retrabalho: quando lancei a automação de IA no WhatsApp, que os devs implementaram em cerca de uma semana, percebi que ela já resolvia alguns tipos de erro 100% sozinha, e precisei excluir notificações que eu tinha acabado de construir.
+    </p>
+    <p>
+      Da próxima vez, eu inverteria a ordem: primeiro mapear e automatizar tudo que a IA já conseguia resolver sozinha — que levou uma fração do tempo — e só depois desenhar a tela, cobrindo exatamente o que sobrasse pra assistente. Teria sido mais rápido e sem nenhum retrabalho.
+    </p>
+  </section>
+
+  <div class="case-footer">
+    <a href="index.html#jornadas" class="back-link">← Todas as jornadas</a>
+    <div class="next-case">Próxima jornada <a href="#">O estudo de churn que eu não pedi pra fazer →</a></div>
+  </div>
+
+</main>
+
+
+<footer class="site-footer">© 2026 Caroline Gonçalves</footer>
+
+</body>
+</html>

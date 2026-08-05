@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caroline Gonçalves — Protótipo v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void: #08090D;
+    --panel: #12131A;
+    --panel-hi: #181A24;
+    --line: rgba(255,255,255,0.08);
+    --line-hi: rgba(255,255,255,0.16);
+    --ink: #F4F5F8;
+    --slate: #8D8FA0;
+    --slate-dim: #5E6070;
+    --blue: #5B7FFF;
+    --blue-soft: #3C4FCC;
+    --violet: #A374FF;
+    --mint: #34D399;
+
+    --display: 'Sora', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family: var(--body);
+    background: var(--void);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a{ color: inherit; text-decoration:none; }
+  @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important; } }
+
+  .grad-text{
+    background: linear-gradient(100deg, var(--blue) 10%, var(--violet) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(8,9,13,0.72);
+    backdrop-filter: blur(16px) saturate(1.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner{
+    max-width: 1180px; margin: 0 auto;
+    padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo{
+    font-family: var(--display); font-size: 1.05rem; font-weight: 600;
+    display: flex; align-items: center; gap: 10px; letter-spacing: -0.01em;
+  }
+  .logo .dot{
+    width: 8px; height: 8px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--violet));
+    box-shadow: 0 0 12px rgba(91,127,255,0.55);
+  }
+  .nav-links{ display: flex; gap: 30px; font-size: 0.86rem; font-weight: 500; color: var(--slate); }
+  .nav-links a{ transition: color 0.2s ease; }
+  .nav-links a:hover{ color: var(--ink); }
+  .contact-btn{
+    background: var(--panel-hi); color: var(--ink);
+    border: 1px solid var(--line-hi);
+    padding: 9px 18px; border-radius: 100px;
+    font-size: 0.84rem; font-weight: 500;
+    transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  }
+  .contact-btn:hover{ border-color: var(--blue); background: rgba(91,127,255,0.1); transform: translateY(-1px); }
+  @media (max-width: 860px){ .nav-links{ display:none; } }
+
+  section{ position: relative; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding: 150px 32px 110px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mesh{
+    position: absolute; top: -280px; left: -120px;
+    width: 1100px; height: 780px; z-index: 0; pointer-events: none;
+  }
+  .mesh div{ position: absolute; border-radius: 50%; filter: blur(90px); }
+  .mesh .b1{ width: 480px; height: 480px; background: rgba(91,127,255,0.28); left: 60px; top: 220px; }
+  .mesh .b2{ width: 420px; height: 420px; background: rgba(163,116,255,0.24); right: 40px; top: 160px; }
+  .mesh .b3{ width: 320px; height: 320px; background: rgba(52,211,153,0.09); left: 380px; top: 60px; }
+
+  .grid-overlay{
+    position: absolute; inset: 0; z-index: 0; opacity: 0.5;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 800px 600px at 30% 30%, black, transparent 75%);
+  }
+
+  .hero-grid{
+    max-width: 1180px; margin: 0 auto; position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center;
+  }
+  .hero-inner{ text-align: left; }
+  .status-badge{
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 0.78rem;
+    color: var(--slate);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 7px 14px 7px 10px;
+    border-radius: 100px;
+    margin-bottom: 30px;
+  }
+  .pulse{ width: 7px; height: 7px; border-radius: 50%; background: var(--mint); position: relative; }
+  .pulse::after{
+    content:''; position: absolute; inset: -4px; border-radius: 50%;
+    border: 1.5px solid var(--mint); animation: pulse 2.2s ease-out infinite;
+  }
+  @keyframes pulse{ 0%{ transform: scale(0.6); opacity: 0.8; } 100%{ transform: scale(2); opacity: 0; } }
+
+  .hi-line{
+    font-family: var(--display); font-weight: 500; font-size: clamp(1.2rem, 2vw, 1.5rem);
+    color: var(--slate); margin-bottom: 4px;
+  }
+  h1{
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+    line-height: 1.08; letter-spacing: -0.02em; color: var(--ink);
+  }
+  .role-line{
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+    margin-top: 14px;
+  }
+  .hero-sub{
+    margin: 22px 0 0; font-size: 1.08rem; line-height: 1.62; color: var(--slate); max-width: 48ch;
+  }
+  .domain-chips{ margin-top: 26px; display: flex; justify-content: flex-start; gap: 8px; flex-wrap: wrap; }
+  .chip{
+    font-family: var(--mono); font-size: 0.74rem; color: var(--slate);
+    border: 1px solid var(--line); padding: 6px 13px; border-radius: 100px; background: var(--panel);
+  }
+  .hero-cta{ margin-top: 38px; display: flex; justify-content: flex-start; gap: 12px; flex-wrap: wrap; }
+
+  /* ---------- Hero photo ---------- */
+  .hero-photo-wrap{
+    position: relative;
+    justify-self: center;
+  }
+  .hero-photo{
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 3/3.6;
+    border-radius: 28px;
+    overflow: hidden;
+    border: 1px solid var(--line-hi);
+    position: relative;
+    background: var(--panel);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.5);
+  }
+  .hero-photo::after{
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(200deg, rgba(91,127,255,0.16), transparent 45%);
+    pointer-events: none;
+  }
+  .hero-photo img{
+    width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
+    display: block;
+  }
+  .photo-badge{
+    position: absolute;
+    left: -18px; bottom: -22px;
+    background: var(--panel-hi);
+    border: 1px solid var(--line-hi);
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex; align-items: center; gap: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+  }
+  .photo-badge .num{
+    font-family: var(--mono); font-weight: 500; font-size: 1.5rem;
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .photo-badge .label{ font-size: 0.78rem; color: var(--slate); line-height: 1.3; }
+  .photo-badge .label strong{ color: var(--ink); display: block; font-size: 0.85rem; font-weight: 600; }
+  @media (max-width: 940px){
+    .hero-grid{ grid-template-columns: 1fr; }
+    .hero-inner{ text-align: center; }
+    .domain-chips, .hero-cta{ justify-content: center; }
+    .hero-photo-wrap{ order: -1; margin-bottom: 20px; }
+    .hero-photo{ max-width: 300px; margin: 0 auto; }
+  }
+  .btn-primary{
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    color: #fff; padding: 14px 28px; border-radius: 10px;
+    font-weight: 600; font-size: 0.92rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+    box-shadow: 0 8px 26px rgba(91,127,255,0.25);
+  }
+  .btn-primary:hover{ transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 14px 34px rgba(91,127,255,0.35); }
+  .btn-ghost{
+    border: 1px solid var(--line-hi); color: var(--ink);
+    padding: 14px 28px; border-radius: 10px; font-weight: 500; font-size: 0.92rem;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .btn-ghost:hover{ border-color: var(--blue); background: rgba(91,127,255,0.08); }
+
+  /* ---------- Section shared ---------- */
+  .section-pad{ padding: 100px 32px; }
+  .section-inner{ max-width: 1080px; margin: 0 auto; }
+  .section-label{
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 14px;
+  }
+  .section-title{
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.65rem, 3vw, 2.4rem);
+    letter-spacing: -0.01em; max-width: 22ch; margin-bottom: 56px; color: var(--ink);
+  }
+
+  /* ---------- Impact ---------- */
+  .stat-grid{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .stat{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 30px 24px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    position: relative; overflow: hidden;
+  }
+  .stat::before{
+    content:''; position: absolute; inset: 0;
+    background: linear-gradient(140deg, rgba(91,127,255,0.08), transparent 60%);
+    opacity: 0; transition: opacity 0.3s ease;
+  }
+  .stat:hover{ transform: translateY(-4px); border-color: rgba(91,127,255,0.35); box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
+  .stat:hover::before{ opacity: 1; }
+  .stat-num{
+    font-family: var(--mono); font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 500;
+    color: var(--ink); letter-spacing: -0.02em; position: relative;
+  }
+  .stat-label{ margin-top: 10px; font-size: 0.86rem; line-height: 1.45; color: var(--slate); max-width: 22ch; position: relative; }
+  @media (max-width: 860px){ .stat-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px){ .stat-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- Bússola ---------- */
+  .bussola{ background: linear-gradient(180deg, transparent, rgba(163,116,255,0.03) 40%, transparent); }
+  .bussola .section-label{ color: var(--violet); }
+  .bussola-intro{
+    color: var(--slate); max-width: 54ch; font-size: 1rem; line-height: 1.65;
+    margin-top: -34px; margin-bottom: 54px;
+  }
+  .principles{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .principle{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 34px 32px;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .principle:hover{ border-color: rgba(163,116,255,0.4); transform: translateY(-3px); }
+  .principle-num{ font-family: var(--mono); font-size: 0.8rem; color: var(--violet); margin-bottom: 16px; }
+  .principle h3{
+    font-family: var(--display); font-weight: 600; font-size: 1.22rem; margin-bottom: 12px;
+    color: var(--ink); letter-spacing: -0.01em;
+  }
+  .principle p{ font-size: 0.9rem; line-height: 1.6; color: var(--slate); }
+  @media (max-width: 860px){ .principles{ grid-template-columns: 1fr; } }
+
+  .compass-wrap{ position: absolute; bottom: 44px; right: 40px; display: flex; align-items: center; gap: 12px; }
+  .compass{ width: 34px; height: 34px; cursor: pointer; opacity: 0.35; transition: opacity 0.3s ease, transform 0.4s ease; }
+  .compass-wrap:hover .compass{ opacity: 1; transform: rotate(90deg); }
+  .compass-msg{
+    font-family: var(--mono); font-size: 0.72rem; color: var(--violet);
+    opacity: 0; transform: translateX(-6px); transition: opacity 0.35s ease, transform 0.35s ease; white-space: nowrap;
+  }
+  .compass-wrap:hover .compass-msg{ opacity: 0.9; transform: translateX(0); }
+  @media (max-width: 860px){ .compass-wrap{ right: 24px; bottom: 26px; } .compass-msg{ display:none; } }
+
+  /* ---------- Jornadas ---------- */
+  .journeys{ background: var(--void); }
+  .journeys-intro{
+    color: var(--slate); max-width: 56ch; font-size: 1rem; line-height: 1.65;
+    margin-top: -34px; margin-bottom: 48px;
+  }
+  .journey-list{ display: flex; flex-direction: column; gap: 14px; }
+  .journey-card{
+    display: grid; grid-template-columns: 70px 1fr auto; align-items: center; gap: 24px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    padding: 28px 30px;
+    transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  }
+  .journey-card.live:hover{ border-color: rgba(91,127,255,0.4); transform: translateY(-3px); background: var(--panel-hi); }
+  .journey-card.soon{ opacity: 0.5; cursor: default; }
+  .journey-num{ font-family: var(--mono); font-size: 0.9rem; color: var(--blue); }
+  .journey-card.soon .journey-num{ color: var(--slate-dim); }
+  .journey-body h3{
+    font-family: var(--display); font-weight: 600; font-size: 1.14rem; color: var(--ink);
+    margin-bottom: 8px; letter-spacing: -0.005em;
+  }
+  .journey-body p{ font-size: 0.9rem; color: var(--slate); line-height: 1.5; margin-bottom: 12px; }
+  .journey-tags{ display: flex; gap: 8px; flex-wrap: wrap; }
+  .journey-tags span{
+    font-family: var(--mono); font-size: 0.7rem; color: var(--slate);
+    border: 1px solid var(--line); padding: 4px 10px; border-radius: 100px;
+  }
+  .journey-arrow{ font-size: 1.3rem; color: var(--slate-dim); transition: transform 0.25s ease, color 0.25s ease; }
+  .journey-card.live:hover .journey-arrow{ transform: translateX(4px); color: var(--blue); }
+  .journey-soon-label{
+    font-family: var(--mono); font-size: 0.72rem; color: var(--slate-dim);
+    border: 1px solid var(--line); padding: 6px 12px; border-radius: 100px; white-space: nowrap;
+  }
+  @media (max-width: 640px){
+    .journey-card{ grid-template-columns: 1fr; gap: 10px; }
+    .journey-arrow{ display: none; }
+  }
+
+  /* ---------- Recomendações ---------- */
+  .testi-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .testi-card{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    padding: 28px 26px; display: flex; flex-direction: column;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .testi-card:hover{ border-color: rgba(91,127,255,0.35); transform: translateY(-3px); }
+  .testi-quote{
+    font-size: 0.92rem; line-height: 1.6; color: #C7C9D6; flex-grow: 1; margin-bottom: 22px;
+  }
+  .testi-quote::before{ content: '"'; color: var(--blue); font-family: var(--display); }
+  .testi-quote::after{ content: '"'; color: var(--blue); font-family: var(--display); }
+  .testi-person{ display: flex; align-items: center; gap: 12px; }
+  .testi-avatar{
+    width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-weight: 600; font-size: 0.95rem; color: #fff;
+    background: linear-gradient(135deg, var(--blue), var(--violet));
+  }
+  .testi-name{ font-family: var(--display); font-weight: 600; font-size: 0.92rem; color: var(--ink); }
+  .testi-role{ font-size: 0.78rem; color: var(--slate); line-height: 1.4; margin-top: 2px; }
+  .testi-context{
+    font-family: var(--mono); font-size: 0.68rem; color: var(--slate-dim);
+    margin-top: 4px; letter-spacing: 0.01em;
+  }
+  @media (max-width: 940px){ .testi-grid{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px){ .testi-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- Experiência ---------- */
+  .timeline{ position: relative; padding-left: 32px; }
+  .timeline::before{
+    content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1px;
+    background: var(--line-hi);
+  }
+  .tl-item{ position: relative; padding-bottom: 42px; }
+  .tl-item:last-child{ padding-bottom: 0; }
+  .tl-item::before{
+    content: ''; position: absolute; left: -32px; top: 4px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--void); border: 2px solid var(--blue);
+  }
+  .tl-item.past::before{ border-color: var(--slate-dim); }
+  .tl-item.origin::before{ border-color: var(--mint); background: var(--void); }
+  .tl-item.origin .tl-company{ color: var(--mint); }
+  .tl-head{ display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .tl-role{ font-family: var(--display); font-weight: 600; font-size: 1.08rem; color: var(--ink); }
+  .tl-dates{ font-family: var(--mono); font-size: 0.76rem; color: var(--slate-dim); }
+  .tl-company{ font-size: 0.88rem; color: var(--blue); font-weight: 500; margin-bottom: 10px; }
+  .tl-item p{ font-size: 0.92rem; line-height: 1.6; color: var(--slate); max-width: 62ch; }
+  .tl-item p strong{ color: var(--ink); font-weight: 500; }
+  .tl-bullets{ margin-top: 14px; max-width: 64ch; }
+  .tl-bullets li{
+    font-size: 0.88rem; line-height: 1.6; color: var(--slate);
+    padding-left: 18px; position: relative; margin-bottom: 9px;
+    list-style: none;
+  }
+  .tl-bullets li:last-child{ margin-bottom: 0; }
+  .tl-bullets li::before{
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 4px; height: 4px; border-radius: 50%; background: var(--slate-dim);
+  }
+  .tl-bullets li strong{ color: var(--ink); font-weight: 500; }
+  .tl-tags{ display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .tl-tags span{
+    font-family: var(--mono); font-size: 0.7rem; color: var(--slate);
+    border: 1px solid var(--line); padding: 4px 10px; border-radius: 100px;
+  }
+
+  /* ---------- Fora do trabalho ---------- */
+  .personal{ text-align: center; }
+  .personal-inner{ max-width: 680px; margin: 0 auto; }
+  .personal p{
+    font-size: 1.06rem; line-height: 1.75; color: #C7C9D6;
+  }
+  .personal em{ font-style: italic; color: var(--ink); }
+
+  /* ---------- Convite ---------- */
+  .convite{ text-align: center; }
+  .convite-inner{ max-width: 700px; margin: 0 auto; position: relative; z-index: 2; }
+  .convite h2{
+    font-family: var(--display); font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.7rem);
+    color: var(--ink); line-height: 1.2; letter-spacing: -0.01em;
+  }
+  .convite p{
+    margin-top: 20px; color: var(--slate); font-size: 1.02rem; line-height: 1.6;
+    max-width: 46ch; margin-left: auto; margin-right: auto;
+  }
+  .convite-actions{ margin-top: 36px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .badges{ margin-top: 50px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .badge{
+    font-family: var(--mono); font-size: 0.74rem; color: var(--slate);
+    border: 1px solid var(--line); background: var(--panel);
+    padding: 8px 15px; border-radius: 100px; display: flex; align-items: center; gap: 7px;
+  }
+
+  footer{
+    padding: 30px 32px; border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 0.75rem; color: var(--slate-dim); text-align: center;
+  }
+
+  .proto-note{
+    background: linear-gradient(100deg, var(--blue), var(--violet)); color: #fff; text-align: center;
+    font-family: var(--mono); font-size: 0.78rem; padding: 10px; letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-note">PROTÓTIPO v4 — com foto, nome no Hero, fonte Sora — ainda sem os Cases</div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo"><span class="dot"></span>Caroline Gonçalves</div>
+    <nav class="nav-links">
+      <a href="#impacto">Impacto</a>
+      <a href="#bussola">Bússola</a>
+      <a href="#jornadas">Jornadas</a>
+      <a href="#recomendacoes">Recomendações</a>
+      <a href="#experiencia">Experiência</a>
+    </nav>
+    <a href="#convite" class="contact-btn">Entre em contato →</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="mesh"><div class="b1"></div><div class="b2"></div><div class="b3"></div></div>
+  <div class="grid-overlay"></div>
+  <div class="hero-grid">
+    <div class="hero-inner">
+      <div class="status-badge"><span class="pulse"></span>Construindo na Tempo desde nov/2025</div>
+      <div class="hi-line">Oi, eu sou</div>
+      <h1>Caroline Gonçalves.</h1>
+      <div class="role-line grad-text">Eu abro caminho onde ninguém desenhou um.</div>
+      <p class="hero-sub">
+        Senior Product Manager, especialista em IA e produtos B2B. Hoje sou a única PM da Tempo, tocando o produto de ponta a ponta — da descoberta ao design, do PRD ao lançamento — para um time de ~12 engenheiros e ~30 pessoas de operação.
+      </p>
+      <div class="domain-chips">
+        <span class="chip">B2B</span>
+        <span class="chip">B2C</span>
+        <span class="chip">Pagamentos</span>
+        <span class="chip">CRM</span>
+      </div>
+      <div class="hero-cta">
+        <a href="#jornadas" class="btn-primary">Ver as jornadas →</a>
+        <a href="#convite" class="btn-ghost">Vamos conversar</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap">
+      <div class="hero-photo">
+        <img src="caroline-photo.jpg" alt="Caroline Gonçalves">
+      </div>
+      <div class="photo-badge">
+        <span class="num">4+</span>
+        <span class="label"><strong>Anos</strong>construindo produto</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACTO -->
+<section class="section-pad" id="impacto">
+  <div class="section-inner">
+    <div class="section-label">Impacto num relance</div>
+    <h2 class="section-title">Números não contam a história toda, mas dão o tom.</h2>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Features entregues em 6 meses, sozinha, na Tempo</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">R$100K+</div>
+        <div class="stat-label">em MRR gerado por uma única feature na Ploomes</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">75%</div>
+        <div class="stat-label">de redução no tempo de resposta da busca geral da plataforma (Ploomes)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">~400</div>
+        <div class="stat-label">clientes B2C atendidos pela plataforma que eu lidero</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BÚSSOLA -->
+<section class="bussola section-pad" id="bussola">
+  <div class="section-inner">
+    <div class="section-label">Bússola</div>
+    <h2 class="section-title">Como eu penso quando o mapa acaba.</h2>
+    <p class="bussola-intro">Quatro princípios que se repetem em quase tudo que eu construo.</p>
+    <div class="principles">
+      <div class="principle">
+        <div class="principle-num">01</div>
+        <h3>Se cai na minha mão, eu resolvo</h3>
+        <p>Quando uma feature não mudava métrica nenhuma pra priorizar com os devs, mas o time de assistentes sofria com ela todo dia, eu mesma construí a solução do zero — e ainda debuguei o que precisava.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">02</div>
+        <h3>Dado antes de opinião</h3>
+        <p>Liderei o primeiro estudo de churn da Qulture.Rocks — não porque alguém pediu, mas porque a estratégia de 2024 precisava de uma base real, não de achismo.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">03</div>
+        <h3>Terreno novo não me assusta</h3>
+        <p>Já fui PM, designer e product marketing na mesma empresa, no mesmo trimestre. Prefiro aprender rápido do que esperar alguém desenhar a caixinha certa pra mim.</p>
+      </div>
+      <div class="principle">
+        <div class="principle-num">04</div>
+        <h3>Autonomia não é ausência de processo</h3>
+        <p>Toco o produto sozinha pra um time de ~12 engenheiros e ~30 pessoas de operação. Isso só funciona porque eu escrevo PRD claro, aviso decisão antes de alguém perguntar, e sei travar prioridade quando precisa. Sem isso, vira bagunça rápido.</p>
+      </div>
+    </div>
+  </div>
+  <div class="compass-wrap">
+    <span class="compass-msg">você achou.</span>
+    <div class="compass">
+      <svg width="34" height="34" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="16" stroke="#A374FF" stroke-width="1.2"/>
+        <circle cx="20" cy="20" r="1.5" fill="#A374FF"/>
+        <path d="M25 12 L18 20 L15 28 L22 20 Z" fill="#A374FF" opacity="0.9"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- JORNADAS -->
+<section class="journeys section-pad" id="jornadas">
+  <div class="section-inner">
+    <div class="section-label">Jornadas</div>
+    <h2 class="section-title">Problemas reais, terrenos diferentes.</h2>
+    <p class="journeys-intro">Cada jornada tem seu próprio contexto, mas o mesmo fio condutor: entender o problema de verdade antes de sair construindo.</p>
+    <div class="journey-list">
+      <a href="case-lovable.html" class="journey-card live">
+        <div class="journey-num">01</div>
+        <div class="journey-body">
+          <h3>Ninguém ia priorizar essa feature. Eu resolvi sozinha.</h3>
+          <p>Uma feature de baixo impacto no roadmap, mas de alto desgaste operacional — reconstruída do zero, sem depender de uma esteira de engenharia.</p>
+          <div class="journey-tags">
+            <span>Tempo</span>
+            <span>Produto · IA · Ops</span>
+            <span>-90% tempo/semana</span>
+          </div>
+        </div>
+        <div class="journey-arrow">→</div>
+      </a>
+      <a href="case-payments.html" class="journey-card live">
+        <div class="journey-num">02</div>
+        <div class="journey-body">
+          <h3>Os devs paravam de codar pra investigar erro de pagamento. Agora usam esse tempo pra evoluir o produto.</h3>
+          <p>Uma tela de notificações obsoleta virou uma central de operações — zerando os chamados de investigação de erro pra engenharia e devolvendo esse tempo pra evolução do produto.</p>
+          <div class="journey-tags">
+            <span>Tempo</span>
+            <span>Discovery · Pagamentos</span>
+            <span>28 erros mapeados</span>
+          </div>
+        </div>
+        <div class="journey-arrow">→</div>
+      </a>
+      <div class="journey-card soon">
+        <div class="journey-num">03</div>
+        <div class="journey-body">
+          <h3>O estudo que ninguém pediu, mas guiou a estratégia do ano seguinte</h3>
+          <p>Como um problema sem dono virou a primeira análise estruturada de churn da empresa.</p>
+          <div class="journey-tags">
+            <span>Qulture.Rocks</span>
+            <span>Dados · Estratégia</span>
+          </div>
+        </div>
+        <div class="journey-soon-label">Em construção</div>
+      </div>
+      <div class="journey-card soon">
+        <div class="journey-num">04</div>
+        <div class="journey-body">
+          <h3>Case de fintech: repensando ativação em produtos white-label</h3>
+          <p>Diagnóstico e hipóteses pra dois problemas de funil distintos em produtos bancários white-label.</p>
+          <div class="journey-tags">
+            <span>Aarin</span>
+            <span>Fintech · Funil</span>
+          </div>
+        </div>
+        <div class="journey-soon-label">Em construção</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMENDAÇÕES -->
+<section class="section-pad" id="recomendacoes">
+  <div class="section-inner">
+    <div class="section-label">O que dizem sobre mim</div>
+    <h2 class="section-title">Recomendações de quem trabalhou comigo de perto.</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <p class="testi-quote">Com um olhar estratégico sobre produto e discovery, ela combina conhecimento técnico com uma comunicação excepcional, que contagia o time e cria um ambiente leve, colaborativo e motivador.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">VS</div>
+          <div>
+            <div class="testi-name">Vânia Cristina Santos</div>
+            <div class="testi-role">Sr Product Designer · AI · Design Systems</div>
+            <div class="testi-context">mesma equipe</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">A Carol é uma PM incrível! Ela foi peça-chave pra construirmos um processo contínuo de coleta e monitoramento de feedback de clientes, além de apoiar 3 squads com análise de negócio e de cliente — muito organizada, proativa e centrada no cliente.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">DC</div>
+          <div>
+            <div class="testi-name">Davi Cesar Correia Jr.</div>
+            <div class="testi-role">Lead Product Manager @ Nubank</div>
+            <div class="testi-context">liderança direta</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">Caroline é daquelas profissionais que fazem a diferença desde o primeiro dia — com uma vontade incansável de aprender e uma curiosidade genuína pelo universo de Produto.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">MF</div>
+          <div>
+            <div class="testi-name">Maria Fernanda Tavares</div>
+            <div class="testi-role">Senior Product Manager @ Grupo OLX</div>
+            <div class="testi-context">sênior, mesma empresa</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">Carol sempre buscou aprender mais da engenharia, o que a torna uma PM completa — entendia as motivações de produto ao mesmo tempo que entendia as limitações de engenharia.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">FS</div>
+          <div>
+            <div class="testi-name">Fellipe Sena</div>
+            <div class="testi-role">Software Engineer</div>
+            <div class="testi-context">mesma equipe</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">Tive o privilégio de ser mentorada por ela no início da minha carreira em Produto, e posso dizer que aprendi muito — sobre produto, sobre liderança e sobre como navegar em diferentes contextos com confiança.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">IC</div>
+          <div>
+            <div class="testi-name">Isabella Camargo Gonçalves</div>
+            <div class="testi-role">AI Product Manager @ Ploomes</div>
+            <div class="testi-context">mentorada por Caroline</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">O senso de urgência, priorização do backlog e visão de longo prazo da Carol me surpreenderam — não só pela disponibilidade, mas pelo impacto positivo real gerado para a companhia.</p>
+        <div class="testi-person">
+          <div class="testi-avatar">JP</div>
+          <div>
+            <div class="testi-name">João Pedro Ledo Ribeiro</div>
+            <div class="testi-role">Especialista em Atendimento e Processos</div>
+            <div class="testi-context">squad diferente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIÊNCIA -->
+<section class="section-pad" id="experiencia">
+  <div class="section-inner">
+    <div class="section-label">O caminho até aqui</div>
+    <h2 class="section-title">De analista de FP&A a única PM de uma plataforma de IA.</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">Senior AI Product Manager</span>
+          <span class="tl-dates">nov/2025 — presente</span>
+        </div>
+        <div class="tl-company">Tempo</div>
+        <p><strong>Única PM da Tempo</strong>, tocando o produto de ponta a ponta de uma plataforma de IA que orquestra pagamentos, tarefas e agendamentos via assistentes de WhatsApp para ~400 clientes B2C, com ~12 engenheiros e ~30 pessoas de operação.</p>
+        <ul class="tl-bullets">
+          <li>Identifiquei sozinha um gargalo operacional na geração de templates de atendimento e construí, via Lovable, uma solução que reduziu o tempo de criação em até 90% — <a href="case-lovable.html" style="color:var(--blue); text-decoration:underline;">ver case completo →</a></li>
+          <li>Zerei os chamados de investigação de erro de pagamento pra engenharia, devolvendo esse tempo pra evolução do produto: mapeei 28 erros entre Pix, Boleto e TED e transformei uma tela de notificações obsoleta numa central de operações, do discovery ao lançamento em ~1 mês. Também desenhei a automação de IA que resolve o erro e avisa o cliente proativamente pelo WhatsApp — <a href="case-payments.html" style="color:var(--blue); text-decoration:underline;">ver case completo →</a></li>
+          <li>Automatizei o acompanhamento de tarefas com follow-ups via IA, incluindo um sistema de comentários duplo: os externos disparam atualização automática pro cliente no WhatsApp, os internos ficam só para coordenação da equipe.</li>
+          <li>Lancei 10+ features em 6 meses cobrindo pagamentos, automação de tarefas e ferramentas de operação — agendamento de pagamentos, extrato automático, anexos de arquivo, prévia semanal, aprovação de custos, tags de portfólio, notas de cliente integradas com IA, preenchimento automático de boleto e pesquisas de satisfação.</li>
+          <li>Defini as regras de validação para Pix, Boleto e TED, incluindo lógica de rateio automático. Mapeei todos os módulos da plataforma para definir os planos de monetização B2B SaaS.</li>
+        </ul>
+        <div class="tl-tags"><span>Figma</span><span>Lovable</span><span>Claude Design</span><span>Figma Make</span><span>Product Discovery</span><span>Product Strategy</span><span>PRDs</span><span>Sprint Planning</span><span>Pagamentos</span><span>IA Generativa</span><span>Jira</span><span>Datadog</span><span>Amplitude</span><span>Notion</span></div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-head">
+          <span class="tl-role">Product Manager</span>
+          <span class="tl-dates">mar/2024 — nov/2025</span>
+        </div>
+        <div class="tl-company">Ploomes</div>
+        <p><strong>Liderança de um squad de 13 pessoas</strong> num CRM de vendas — design, engenharia, QA e suporte.</p>
+        <ul class="tl-bullets">
+          <li>Gerei <strong>R$100K+ em MRR</strong> a partir de um único cliente ao escopar, priorizar e lançar uma feature de fusão de suporte e negócios em 45 dias.</li>
+          <li>Refatorei completamente o Seletor de Funil, melhorando performance e usabilidade e impactando diretamente a satisfação dos clientes.</li>
+          <li>Reduzi o tempo médio de resposta da busca geral da plataforma em <strong>75%</strong> com o lançamento de uma busca global completa, orientada por dados de uso e feedback.</li>
+          <li>Implementei os primeiros PRDs estruturados da empresa, usando User Stories e o método MoSCoW.</li>
+          <li>Melhorei a usabilidade de tarefas e eventos, reduzindo de 5 cliques para 1 o acesso a hyperlinks.</li>
+          <li>Priorizei quick wins a partir da gestão ativa de pedidos de clientes, entregando valor rápido.</li>
+          <li>Mentorei pessoas juniores em gestão de stakeholders, discovery, documentação e desenvolvimento de carreira.</li>
+        </ul>
+        <div class="tl-tags"><span>CRM</span><span>Stakeholder Management</span><span>Roadmap Planning</span><span>Mentoria</span><span>GA4</span><span>Notion</span><span>Jira</span><span>Confluence</span><span>SCRUM</span></div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-head">
+          <span class="tl-role">Product Manager · Associate PM</span>
+          <span class="tl-dates">mai/2022 — mar/2024</span>
+        </div>
+        <div class="tl-company">Qulture.Rocks (UOL)</div>
+        <p><strong>Liderei o primeiro estudo de churn</strong> da empresa, guiando a estratégia de 2024.</p>
+        <ul class="tl-bullets">
+          <li>Concebi e lancei uma feature de lembretes para criação e atualização de planos de ação, em dois canais além da própria plataforma, aumentando o engajamento com o PDP.</li>
+          <li>Liderei o primeiro estudo de churn da empresa: coleta e análise de dados, validação de hipóteses e direcionamento da estratégia de 2024.</li>
+          <li>Gerenciei projetos de migração de plataformas de Product Analytics e estruturação de eventos.</li>
+          <li>Co-liderei a implementação de uma cultura orientada a dados, fornecendo insights para decisões do time de produto.</li>
+          <li>Como Associate PM: apoiei discovery e delivery dos squads, estruturei dashboards de funis de uso e adoção, implementei um processo unificado de feedback (vendas, CS e produto), e criei o dicionário de métricas e os OKRs de produto da empresa.</li>
+        </ul>
+        <div class="tl-tags"><span>Churn Analysis</span><span>Product Analytics</span><span>OKRs</span><span>Data-driven Decisions</span><span>Mixpanel</span><span>SQL</span><span>Data Analytics</span><span>Product Operations</span></div>
+      </div>
+      <div class="tl-item past">
+        <div class="tl-head">
+          <span class="tl-role">FP&A Analyst</span>
+          <span class="tl-dates">2019 — 2022</span>
+        </div>
+        <div class="tl-company">VMK Holding · Construtora Stéfani</div>
+        <p><strong>Onde aprendi a pensar como analista antes de pensar como PM.</strong></p>
+        <ul class="tl-bullets">
+          <li>Estruturei o processo orçamentário de 26 franquias do Grupo Todos (VMK Holding) — planilhas, premissas de projeção e acompanhamento de fluxo orçamentário.</li>
+          <li>Produzi relatórios mensais de resultados para dezenas de unidades de negócio e conduzi estudos de viabilidade econômico-financeira.</li>
+          <li>Na Construtora Stéfani, desenvolvi o Dashboard Corporativo, projeções de fluxo de caixa e relatórios administrativos via SQL sobre o ERP Mega.</li>
+          <li>Criei um projeto de identificação de erros de lançamento financeiro, rastreando divergências em centro de custo, classe financeira e projeto via query — gerando informação gerencial mais confiável.</li>
+        </ul>
+        <div class="tl-tags"><span>SQL</span><span>Financial Modeling</span><span>Dashboards</span><span>Excel</span></div>
+      </div>
+      <div class="tl-item origin">
+        <div class="tl-head">
+          <span class="tl-role">Economia Empresarial e Controladoria</span>
+          <span class="tl-dates">2017 — 2021</span>
+        </div>
+        <div class="tl-company">Universidade de São Paulo (USP)</div>
+        <p><strong>Onde tudo começou: economia, dados e a base analítica que carrego até hoje.</strong></p>
+        <ul class="tl-bullets">
+          <li>Representante discente do colegiado do curso, participando de decisões acadêmicas e apoiando outros estudantes.</li>
+          <li>Presidente da Nexos Gestão Pública, organização estudantil voltada a gestão pública, e organizadora de grupos de estudo.</li>
+        </ul>
+        <div class="tl-tags"><span>Economia</span><span>Controladoria</span><span>Liderança Estudantil</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORA DO TRABALHO -->
+<section class="personal section-pad" id="pessoal">
+  <div class="personal-inner">
+    <div class="section-label" style="justify-content:center; display:flex;">Fora do trabalho</div>
+    <p>Entre 2021 e 2023 fui nômade digital pelo Brasil — Maranhão, Piauí, Ceará, Paraná, Rio Grande do Sul, Santa Catarina, Rio de Janeiro, e boa parte de São Paulo. Acho que é <em>a mesma parte de mim</em> que gosta de entrar em produto sem trilha pronta: trocar de cidade a cada poucos meses também é decidir sem mapa. Hoje treino natação pra competir em mar aberto — sem raia, sem borda pra segurar, só disciplina e a decisão de continuar. E estou sempre no meio de algum livro de ficção; gosto de sistemas e mundos complexos demais pra resistir, seja num romance ou num produto.</p>
+  </div>
+</section>
+
+<!-- CONVITE -->
+<section class="convite section-pad" id="convite">
+  <div class="convite-inner">
+    <div class="section-label" style="justify-content:center; display:flex;">Convite</div>
+    <h2>Se o problema for difícil, <span class="grad-text">me chama</span>.</h2>
+    <p>Gosto de trocar ideia sobre produto, ambiguidade e times que constroem sem esperar o caminho pronto. Se é isso que você também gosta, vamos conversar.</p>
+    <div class="convite-actions">
+      <a href="mailto:carolinefg63@gmail.com" class="btn-primary">✉ Me envie um email</a>
+      <a href="https://www.linkedin.com/in/carolinefgoncalves" class="btn-ghost" target="_blank">in LinkedIn</a>
+    </div>
+    <div class="badges">
+      <span class="badge">📍 São Paulo, Brasil</span>
+      <span class="badge">🏢 Presencial · Híbrido · Remoto</span>
+      <span class="badge">🌍 Disponível globalmente</span>
+      <span class="badge">✈️ Aberta a realocação</span>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Caroline Gonçalves</footer>
+
+</body>
+</html>
