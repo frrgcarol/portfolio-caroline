@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="favicon-32.png">
+<title>Caroline Gonçalves — Case: Churn Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void: #08090D;
+    --panel: #12131A;
+    --panel-hi: #181A24;
+    --line: rgba(255,255,255,0.08);
+    --line-hi: rgba(255,255,255,0.16);
+    --ink: #F4F5F8;
+    --slate: #8D8FA0;
+    --slate-dim: #5E6070;
+    --blue: #5B7FFF;
+    --violet: #A374FF;
+    --mint: #34D399;
+    --amber: #F5B454;
+
+    --display: 'Sora', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family: var(--body);
+    background: var(--void);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; text-decoration:none; }
+  @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important; } }
+
+  .grad-text{
+    background: linear-gradient(100deg, var(--blue) 10%, var(--violet) 90%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(8,9,13,0.78);
+    backdrop-filter: blur(16px) saturate(1.6);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner{
+    max-width: 900px; margin: 0 auto;
+    padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .back-link{
+    font-size: 0.86rem; font-weight: 500; color: var(--slate);
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover{ color: var(--ink); }
+  .contact-btn{
+    background: var(--panel-hi); color: var(--ink);
+    border: 1px solid var(--line-hi);
+    padding: 9px 18px; border-radius: 100px;
+    font-size: 0.84rem; font-weight: 500;
+    transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  }
+  .contact-btn:hover{ border-color: var(--blue); background: rgba(91,127,255,0.1); transform: translateY(-1px); }
+
+  main{ max-width: 780px; margin: 0 auto; padding: 70px 32px 60px; }
+
+  /* ---------- Case hero ---------- */
+  .case-eyebrow{
+    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+  }
+  .case-title{
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(1.9rem, 4.4vw, 2.7rem);
+    line-height: 1.16; letter-spacing: -0.015em; color: var(--ink);
+  }
+  .case-dek{
+    margin-top: 20px; font-size: 1.08rem; line-height: 1.62; color: var(--slate); max-width: 58ch;
+  }
+
+  /* ---------- TL;DR box ---------- */
+  .tldr{
+    margin-top: 44px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+  }
+  .tldr-item .k{
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--slate-dim); margin-bottom: 6px;
+  }
+  .tldr-item .v{ font-size: 0.92rem; font-weight: 600; color: var(--ink); line-height: 1.35; }
+  @media (max-width: 700px){ .tldr{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px){ .tldr{ grid-template-columns: 1fr; } }
+
+  /* ---------- Sections ---------- */
+  .case-section{ margin-top: 76px; }
+  .case-label{
+    font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--violet); margin-bottom: 16px;
+  }
+  .case-heading{
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.4rem, 2.6vw, 1.75rem);
+    letter-spacing: -0.01em; margin-bottom: 22px; color: var(--ink);
+  }
+  .case-section p{
+    font-size: 1.02rem; line-height: 1.75; color: #C7C9D6; margin-bottom: 18px;
+  }
+  .case-section p:last-child{ margin-bottom: 0; }
+  .case-section strong{ color: var(--ink); font-weight: 600; }
+
+  .quote-pull{
+    margin: 32px 0; padding: 24px 28px;
+    border-left: 2px solid var(--blue);
+    background: var(--panel);
+    border-radius: 0 12px 12px 0;
+    font-family: var(--display); font-weight: 500; font-style: normal;
+    font-size: 1.1rem; line-height: 1.5; color: var(--ink);
+  }
+
+  /* ---------- Before/After ---------- */
+  .compare{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px;
+  }
+  .compare-col{
+    border-radius: 16px; padding: 26px 24px; border: 1px solid var(--line);
+  }
+  .compare-col.before{ background: rgba(245,180,84,0.05); border-color: rgba(245,180,84,0.22); }
+  .compare-col.after{ background: rgba(52,211,153,0.05); border-color: rgba(52,211,153,0.22); }
+  .compare-tag{
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 14px; display: inline-block; padding: 4px 10px; border-radius: 100px;
+  }
+  .before .compare-tag{ color: var(--amber); background: rgba(245,180,84,0.12); }
+  .after .compare-tag{ color: var(--mint); background: rgba(52,211,153,0.12); }
+  .compare-col ul{ list-style: none; }
+  .compare-col li{
+    font-size: 0.92rem; line-height: 1.55; color: #C7C9D6;
+    padding-left: 18px; position: relative; margin-bottom: 12px;
+  }
+  .compare-col li:last-child{ margin-bottom: 0; }
+  .compare-col li::before{
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 5px; height: 5px; border-radius: 50%;
+  }
+  .before li::before{ background: var(--amber); }
+  .after li::before{ background: var(--mint); }
+  @media (max-width: 640px){ .compare{ grid-template-columns: 1fr; } }
+
+  /* ---------- Feature list ---------- */
+  .feature-grid{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px;
+  }
+  .feature-card{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 22px 22px; transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .feature-card:hover{ border-color: rgba(91,127,255,0.35); transform: translateY(-2px); }
+  .feature-card .fnum{
+    font-family: var(--mono); font-size: 0.74rem; color: var(--blue); margin-bottom: 10px;
+  }
+  .feature-card h4{
+    font-family: var(--display); font-weight: 600; font-size: 0.98rem; margin-bottom: 8px; color: var(--ink);
+  }
+  .feature-card p{ font-size: 0.86rem; line-height: 1.55; color: var(--slate); margin: 0; }
+  @media (max-width: 640px){ .feature-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- Flow diagram ---------- */
+  .flow{
+    margin-top: 10px; display: flex; align-items: stretch; gap: 0; flex-wrap: wrap;
+  }
+  .flow-step{
+    flex: 1; min-width: 130px;
+    background: var(--panel); border: 1px solid var(--line);
+    padding: 18px 16px; text-align: center; position: relative;
+  }
+  .flow-step:first-child{ border-radius: 14px 0 0 14px; }
+  .flow-step:last-child{ border-radius: 0 14px 14px 0; }
+  .flow-step .fs-num{
+    font-family: var(--mono); font-size: 0.7rem; color: var(--violet); margin-bottom: 8px;
+  }
+  .flow-step .fs-label{ font-size: 0.82rem; color: var(--ink); font-weight: 500; line-height: 1.4; }
+  .flow-arrow{
+    display: flex; align-items: center; justify-content: center;
+    color: var(--slate-dim); font-size: 1rem; padding: 0 6px;
+  }
+  @media (max-width: 640px){
+    .flow{ flex-direction: column; }
+    .flow-step:first-child, .flow-step:last-child{ border-radius: 14px; }
+    .flow-arrow{ transform: rotate(90deg); padding: 4px 0; }
+  }
+
+  /* ---------- Impact stats ---------- */
+  .impact-row{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 8px; }
+  .impact-stat{
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px 20px;
+  }
+  .impact-stat .num{
+    font-family: var(--mono); font-weight: 500; font-size: 1.5rem;
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .impact-stat .lbl{ margin-top: 8px; font-size: 0.82rem; color: var(--slate); line-height: 1.4; }
+  @media (max-width: 640px){ .impact-row{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 460px){ .impact-row{ grid-template-columns: 1fr; } }
+
+  /* ---------- Calc box ---------- */
+  .calc-box{
+    margin-top: 24px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px 28px;
+    font-family: var(--mono); font-size: 0.88rem; line-height: 1.9; color: var(--slate);
+  }
+  .calc-box .cline{ display: flex; justify-content: space-between; gap: 20px; max-width: 420px; flex-wrap: wrap; }
+  .calc-box .cline .cval{ color: var(--ink); }
+  .calc-box hr{ border: none; border-top: 1px solid var(--line); margin: 10px 0; max-width: 420px; }
+  .calc-box .cresult{ display: flex; justify-content: space-between; gap: 20px; max-width: 420px; }
+  .calc-box .cresult .cval{
+    font-weight: 500;
+    background: linear-gradient(100deg, var(--blue), var(--violet));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .calc-note{ font-size: 0.78rem; color: var(--slate-dim); margin-top: 14px; font-family: var(--body); line-height: 1.6; }
+
+  /* ---------- Reflection box ---------- */
+  .reflection{
+    background: linear-gradient(160deg, rgba(163,116,255,0.06), transparent);
+    border: 1px solid rgba(163,116,255,0.2);
+    border-radius: 18px;
+    padding: 32px 32px;
+  }
+  .reflection .case-label{ margin-bottom: 12px; }
+
+  /* ---------- Case nav footer ---------- */
+  .case-footer{
+    margin-top: 90px; padding-top: 40px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+  }
+  .next-case{ font-size: 0.9rem; color: var(--slate); }
+  .next-case a{ color: var(--ink); font-weight: 600; margin-left: 6px; }
+  .next-case a:hover{ color: var(--blue); }
+
+  footer.site-footer{
+    padding: 30px 32px; border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 0.75rem; color: var(--slate-dim); text-align: center;
+  }
+
+  .proto-note{
+    background: linear-gradient(100deg, var(--blue), var(--violet)); color: #fff; text-align: center;
+    font-family: var(--mono); font-size: 0.78rem; padding: 10px; letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="header-inner">
+    <a href="index-en.html#jornadas" class="back-link">← All journeys</a>
+    <a href="index-en.html#convite" class="contact-btn">Get in touch →</a>
+  </div>
+</header>
+
+<main>
+
+  <div class="case-eyebrow">
+    <span>Journey 03</span> · <span>Qulture.Rocks</span> · <span>Discovery · Data · HR Tech</span>
+  </div>
+  <h1 class="case-title">The churn study that became a product hypothesis</h1>
+  <p class="case-dek">
+    How a statistical test revealed why clients were canceling, and turned into a product bet to raise the platform's perceived value year-round — not just during performance review season.
+  </p>
+
+  <div class="tldr">
+    <div class="tldr-item">
+      <div class="k">My role</div>
+      <div class="v">Discovery, statistical analysis, and product hypothesis</div>
+    </div>
+    <div class="tldr-item">
+      <div class="k">Method</div>
+      <div class="v">Student's t-test</div>
+    </div>
+    <div class="tldr-item">
+      <div class="k">Timeframe</div>
+      <div class="v">Turn of 2024</div>
+    </div>
+    <div class="tldr-item">
+      <div class="k">Result</div>
+      <div class="v">Guided the next year's product bet</div>
+    </div>
+  </div>
+
+  <!-- CONTEXTO -->
+  <section class="case-section">
+    <div class="case-label">Context</div>
+    <h2 class="case-heading">A product sold for one moment of the year</h2>
+    <p>
+      Qulture.Rocks is a performance management and organizational culture platform. Our best-selling product was the <strong>Performance Review (AVD)</strong> — but it only ran once or twice a year. Outside those windows, a good chunk of clients had no strong reason to keep using the platform day to day.
+    </p>
+    <p>
+      It was also a period of harsher financial pressure due to the pandemic — companies were cutting anything considered "nice to have," and we needed to make sure the platform wasn't seen that way.
+    </p>
+  </section>
+
+  <!-- O PROBLEMA -->
+  <section class="case-section">
+    <div class="case-label">The problem</div>
+    <h2 class="case-heading">Churn rising, with no clear cause mapped</h2>
+    <p>
+      At the turn of 2024, the company's churn was climbing, and no one had a structured explanation — just loose guesses. I decided to run Qulture.Rocks' first churn study to understand, with real data, what was going on.
+    </p>
+  </section>
+
+  <!-- A ANÁLISE -->
+  <section class="case-section">
+    <div class="case-label">The analysis</div>
+    <h2 class="case-heading">What Student's t-test revealed</h2>
+    <p>
+      I ran a <strong>Student's t-test</strong> across several client behavior variables. It's a statistical method that compares the average of two samples — for example, clients who canceled versus clients who stayed — to tell whether the difference between them is real (statistically significant) or just a coincidence in the data we happened to have.
+    </p>
+    <p>
+      The result showed a clear pattern: clients who used <strong>only the Performance Review product</strong> — our best-seller — canceled far more easily than clients who also used other products on the platform. It made sense: if the review only happens once or twice a year, the client didn't necessarily want to keep paying for the platform the rest of the year.
+    </p>
+    <div class="quote-pull">
+      Lack of engagement outside the review window led to a lack of perceived value — and a lack of perceived value led to the urge to cancel.
+    </div>
+  </section>
+
+  <!-- A HIPÓTESE -->
+  <section class="case-section">
+    <div class="case-label">The hypothesis</div>
+    <h2 class="case-heading">If the problem was engagement, which product could fix it?</h2>
+    <p>
+      Based on the analysis, I formed the hypothesis that increasing platform usage in the months outside the review window could raise perceived value and reduce churn. The question was: which product had real potential to sustain that usage year-round?
+    </p>
+    <p>
+      My bet was the <strong>PDI (Individual Development Plan)</strong> — because it was already directly connected to the Performance Review (every review could generate a PDI), and unlike the review, it made sense to use the PDI year-round, tracking an employee's development continuously.
+    </p>
+  </section>
+
+  <!-- MAIS UM PADRÃO NOS DADOS -->
+  <section class="case-section">
+    <div class="case-label">Another pattern in the data</div>
+    <h2 class="case-heading">HR engagement was also product engagement</h2>
+    <p>
+      The same statistical analysis surfaced something else important: the companies most engaged with the platform were exactly the ones where the HR person in charge kept in constant touch with us — frequent meetings, active questions, close follow-up.
+    </p>
+    <p>
+      I passed that insight to the Customer Success team, who built a plan to pull in more check-in meetings with less-engaged companies, helping them get more day-to-day value out of the platform.
+    </p>
+  </section>
+
+  <!-- O QUE EU FIZ NO PRODUTO -->
+  <section class="case-section">
+    <div class="case-label">What I did in the product</div>
+    <h2 class="case-heading">Removing friction for people already using the PDI</h2>
+    <p>
+      I started working on the PDI with the goal of cutting usage friction as much as possible. Two main fronts:
+    </p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fnum">01</div>
+        <h4>Notifications at every step</h4>
+        <p>I started notifying users at every step of the PDI, keeping the development plan top of mind throughout the year, not just during review season.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fnum">02</div>
+        <h4>Filling it out from tools already in use</h4>
+        <p>The highest-potential change: giving people the option to fill out the PDI directly from tools they already used at work, like Slack — removing the friction of having to open yet another separate platform.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- O QUE EU FARIA DIFERENTE -->
+  <section class="case-section reflection">
+    <div class="case-label">What I'd do differently</div>
+    <h2 class="case-heading">I didn't stay long enough to see churn move</h2>
+    <p>
+      I left the company a few months after starting this work, and churn isn't a metric that responds quickly — the real effect of an engagement change only shows up months later, at the next renewal cycle. So I don't have the final number on how much churn actually dropped because of these changes.
+    </p>
+    <p>
+      If I had stayed, the right approach would've been cohort tracking: split companies between those who started engaging more with the PDI — measured by fill-out frequency, notification engagement, and adoption of the Slack fill-out option — and those who kept the previous pattern. I'd track usage indicators month over month as a leading signal, since churn is a slow-responding metric that only gets confirmed at the next renewal cycle, which could take up to a year. And I'd cross that with the CS team, checking whether the more-engaged group actually renewed more or signaled less intent to cancel in check-in conversations — only that comparison would let me back up the impact with data, not just perception.
+    </p>
+  </section>
+
+  <div class="case-footer">
+    <a href="index-en.html#jornadas" class="back-link">← All journeys</a>
+    <div class="next-case">More journeys coming soon</div>
+  </div>
+
+</main>
+
+
+
+<footer class="site-footer">© 2026 Caroline Gonçalves</footer>
+
+</body>
+</html>
