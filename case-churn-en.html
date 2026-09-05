@@ -4,408 +4,238 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="favicon-32.png">
-<title>Caroline Gonçalves — Case: Churn Study</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>The churn study that became a product bet — Caroline Gonçalves</title>
+<meta name="description" content="The first churn study at Qulture.Rocks. A chi-square test showed who was cancelling and why, and became the following year's growth hypothesis.">
+<link rel="alternate" hreflang="pt-BR" href="case-churn.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --void: #08090D;
-    --panel: #12131A;
-    --panel-hi: #181A24;
-    --line: rgba(255,255,255,0.08);
-    --line-hi: rgba(255,255,255,0.16);
-    --ink: #F4F5F8;
-    --slate: #8D8FA0;
-    --slate-dim: #5E6070;
-    --blue: #5B7FFF;
-    --violet: #A374FF;
-    --mint: #34D399;
-    --amber: #F5B454;
+    --creme:#FBF3E4; --creme-fund:#F5EAD6; --tinta:#241E21; --cinza:#4E4247;
+    --magenta:#98145A; --magenta-fd:#7A1049; --rosa:#F7A8CD;
+    --linha:rgba(36,30,33,0.14);
+    --display:'Anton',Impact,sans-serif; --corpo:'Poppins',system-ui,sans-serif;
+    --gutter:32px; --max:820px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--corpo);font-size:18px;line-height:1.7;background:var(--creme);color:var(--tinta);-webkit-font-smoothing:antialiased;}
+  a{color:inherit;} img{max-width:100%;display:block;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;}}
+  :focus-visible{outline:3px solid var(--magenta);outline-offset:3px;}
+  .capa :focus-visible,.rodape :focus-visible,.fecho :focus-visible{outline-color:var(--creme);}
+  .pular{position:absolute;left:-9999px;background:var(--tinta);color:var(--creme);padding:12px 20px;z-index:200;}
+  .pular:focus{left:8px;top:8px;}
 
-    --display: 'Sora', sans-serif;
-    --body: 'Inter', sans-serif;
-    --mono: 'JetBrains Mono', monospace;
-  }
-  *{ margin:0; padding:0; box-sizing:border-box; }
-  html{ scroll-behavior:smooth; }
-  body{
-    font-family: var(--body);
-    background: var(--void);
-    color: var(--ink);
-    -webkit-font-smoothing: antialiased;
-  }
-  a{ color: inherit; text-decoration:none; }
-  @media (prefers-reduced-motion: reduce){ *{ animation: none !important; transition: none !important; } }
+  .env{max-width:var(--max);margin:0 auto;padding:0 var(--gutter);}
+  .env-larga{max-width:1080px;margin:0 auto;padding:0 var(--gutter);}
+  h1,h2{font-family:var(--display);font-weight:400;line-height:1.06;}
+  h3{font-family:var(--corpo);font-weight:600;line-height:1.35;}
+  p{max-width:68ch;}
 
-  .grad-text{
-    background: linear-gradient(100deg, var(--blue) 10%, var(--violet) 90%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
+  .topo{position:sticky;top:0;z-index:60;background:rgba(251,243,228,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--linha);}
+  .topo-int{max-width:1080px;margin:0 auto;padding:14px var(--gutter);display:flex;justify-content:space-between;align-items:center;gap:20px;}
+  .topo a{font-size:15px;font-weight:600;text-decoration:none;color:var(--cinza);}
+  .topo a:hover{color:var(--magenta);}
+  .topo .marca{font-family:var(--display);font-size:20px;color:var(--tinta);font-weight:400;}
 
-  /* ---------- Header ---------- */
-  header{
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(8,9,13,0.78);
-    backdrop-filter: blur(16px) saturate(1.6);
-    border-bottom: 1px solid var(--line);
-  }
-  .header-inner{
-    max-width: 900px; margin: 0 auto;
-    padding: 16px 32px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .back-link{
-    font-size: 0.86rem; font-weight: 500; color: var(--slate);
-    display: flex; align-items: center; gap: 8px;
-    transition: color 0.2s ease;
-  }
-  .back-link:hover{ color: var(--ink); }
-  .contact-btn{
-    background: var(--panel-hi); color: var(--ink);
-    border: 1px solid var(--line-hi);
-    padding: 9px 18px; border-radius: 100px;
-    font-size: 0.84rem; font-weight: 500;
-    transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
-  }
-  .contact-btn:hover{ border-color: var(--blue); background: rgba(91,127,255,0.1); transform: translateY(-1px); }
+  .capa{background:var(--magenta);color:var(--creme);padding:76px 0 68px;position:relative;overflow:hidden;}
+  .capa::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.42;
+    background-image:radial-gradient(rgba(255,255,255,.10) 1px,transparent 1px),radial-gradient(rgba(0,0,0,.10) 1px,transparent 1px);
+    background-size:3px 3px,5px 5px;background-position:0 0,2px 2px;}
+  .capa .env{position:relative;z-index:2;}
+  .capa-estrela{position:absolute;z-index:1;fill:var(--rosa);opacity:.22;right:-50px;top:-30px;width:280px;transform:rotate(12deg);pointer-events:none;}
+  .capa-meta{font-size:14px;font-weight:600;color:var(--rosa);margin-bottom:16px;}
+  h1{font-size:clamp(34px,5.6vw,60px);text-transform:uppercase;margin-bottom:22px;max-width:18ch;}
+  .capa .resumo{font-size:19px;color:#F7E6EF;max-width:60ch;}
 
-  main{ max-width: 780px; margin: 0 auto; padding: 70px 32px 60px; }
+  .ficha{background:var(--creme-fund);border-bottom:1px solid var(--linha);padding:34px 0;}
+  .ficha-grade{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;max-width:1080px;margin:0 auto;padding:0 var(--gutter);}
+  .ficha b{display:block;font-size:13px;font-weight:600;color:var(--magenta);margin-bottom:6px;}
+  .ficha span{display:block;font-size:16px;line-height:1.5;}
+  @media(max-width:860px){.ficha-grade{grid-template-columns:repeat(2,1fr);gap:24px;}}
+  @media(max-width:460px){.ficha-grade{grid-template-columns:1fr;}}
 
-  /* ---------- Case hero ---------- */
-  .case-eyebrow{
-    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
-  }
-  .case-title{
-    font-family: var(--display); font-weight: 700;
-    font-size: clamp(1.9rem, 4.4vw, 2.7rem);
-    line-height: 1.16; letter-spacing: -0.015em; color: var(--ink);
-  }
-  .case-dek{
-    margin-top: 20px; font-size: 1.08rem; line-height: 1.62; color: var(--slate); max-width: 58ch;
-  }
+  section{padding:64px 0;}
+  section + section{border-top:1px solid var(--linha);}
+  h2{font-size:clamp(28px,4vw,40px);margin-bottom:22px;max-width:22ch;}
+  section p + p{margin-top:18px;}
+  .destaque{color:var(--magenta);font-weight:600;}
 
-  /* ---------- TL;DR box ---------- */
-  .tldr{
-    margin-top: 44px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 28px 30px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 22px;
-  }
-  .tldr-item .k{
-    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--slate-dim); margin-bottom: 6px;
-  }
-  .tldr-item .v{ font-size: 0.92rem; font-weight: 600; color: var(--ink); line-height: 1.35; }
-  @media (max-width: 700px){ .tldr{ grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 460px){ .tldr{ grid-template-columns: 1fr; } }
+  .virada{background:var(--rosa);border-left:8px solid var(--magenta);padding:28px 30px;margin:32px 0;}
+  .virada p{font-size:20px;font-weight:600;line-height:1.45;color:var(--tinta);max-width:52ch;margin:0;}
 
-  /* ---------- Sections ---------- */
-  .case-section{ margin-top: 76px; }
-  .case-label{
-    font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--violet); margin-bottom: 16px;
-  }
-  .case-heading{
-    font-family: var(--display); font-weight: 600;
-    font-size: clamp(1.4rem, 2.6vw, 1.75rem);
-    letter-spacing: -0.01em; margin-bottom: 22px; color: var(--ink);
-  }
-  .case-section p{
-    font-size: 1.02rem; line-height: 1.75; color: #C7C9D6; margin-bottom: 18px;
-  }
-  .case-section p:last-child{ margin-bottom: 0; }
-  .case-section strong{ color: var(--ink); font-weight: 600; }
+  .metodo{background:var(--creme-fund);border:1px solid var(--linha);padding:26px;margin-top:28px;}
+  .metodo h3{font-size:16px;color:var(--magenta);margin-bottom:10px;}
+  .metodo p{font-size:16px;color:var(--cinza);margin:0;}
 
-  .quote-pull{
-    margin: 32px 0; padding: 24px 28px;
-    border-left: 2px solid var(--blue);
-    background: var(--panel);
-    border-radius: 0 12px 12px 0;
-    font-family: var(--display); font-weight: 500; font-style: normal;
-    font-size: 1.1rem; line-height: 1.5; color: var(--ink);
-  }
+  .construi{list-style:none;margin-top:30px;}
+  .construi li{border-top:1px solid var(--linha);padding:22px 0;}
+  .construi h3{font-size:19px;margin-bottom:6px;}
+  .construi p{font-size:16.5px;color:var(--cinza);margin:0;}
 
-  /* ---------- Before/After ---------- */
-  .compare{
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px;
-  }
-  .compare-col{
-    border-radius: 16px; padding: 26px 24px; border: 1px solid var(--line);
-  }
-  .compare-col.before{ background: rgba(245,180,84,0.05); border-color: rgba(245,180,84,0.22); }
-  .compare-col.after{ background: rgba(52,211,153,0.05); border-color: rgba(52,211,153,0.22); }
-  .compare-tag{
-    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
-    margin-bottom: 14px; display: inline-block; padding: 4px 10px; border-radius: 100px;
-  }
-  .before .compare-tag{ color: var(--amber); background: rgba(245,180,84,0.12); }
-  .after .compare-tag{ color: var(--mint); background: rgba(52,211,153,0.12); }
-  .compare-col ul{ list-style: none; }
-  .compare-col li{
-    font-size: 0.92rem; line-height: 1.55; color: #C7C9D6;
-    padding-left: 18px; position: relative; margin-bottom: 12px;
-  }
-  .compare-col li:last-child{ margin-bottom: 0; }
-  .compare-col li::before{
-    content: ''; position: absolute; left: 0; top: 8px;
-    width: 5px; height: 5px; border-radius: 50%;
-  }
-  .before li::before{ background: var(--amber); }
-  .after li::before{ background: var(--mint); }
-  @media (max-width: 640px){ .compare{ grid-template-columns: 1fr; } }
+  .cadeia{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px;}
+  .elo{background:var(--creme-fund);border:1px solid var(--linha);border-top:3px solid var(--magenta);padding:20px;font-size:16px;line-height:1.5;}
+  @media(max-width:720px){.cadeia{grid-template-columns:1fr;}}
 
-  /* ---------- Feature list ---------- */
-  .feature-grid{
-    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px;
-  }
-  .feature-card{
-    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
-    padding: 22px 22px; transition: border-color 0.25s ease, transform 0.25s ease;
-  }
-  .feature-card:hover{ border-color: rgba(91,127,255,0.35); transform: translateY(-2px); }
-  .feature-card .fnum{
-    font-family: var(--mono); font-size: 0.74rem; color: var(--blue); margin-bottom: 10px;
-  }
-  .feature-card h4{
-    font-family: var(--display); font-weight: 600; font-size: 0.98rem; margin-bottom: 8px; color: var(--ink);
-  }
-  .feature-card p{ font-size: 0.86rem; line-height: 1.55; color: var(--slate); margin: 0; }
-  @media (max-width: 640px){ .feature-grid{ grid-template-columns: 1fr; } }
+  .ressalva{background:var(--creme-fund);border:1px solid var(--linha);border-left:8px solid var(--tinta);padding:24px 26px;margin-top:30px;}
+  .ressalva h3{font-size:17px;margin-bottom:8px;}
+  .ressalva p{font-size:16px;color:var(--cinza);margin:0;}
+  .ressalva p + p{margin-top:14px;}
 
-  /* ---------- Flow diagram ---------- */
-  .flow{
-    margin-top: 10px; display: flex; align-items: stretch; gap: 0; flex-wrap: wrap;
-  }
-  .flow-step{
-    flex: 1; min-width: 130px;
-    background: var(--panel); border: 1px solid var(--line);
-    padding: 18px 16px; text-align: center; position: relative;
-  }
-  .flow-step:first-child{ border-radius: 14px 0 0 14px; }
-  .flow-step:last-child{ border-radius: 0 14px 14px 0; }
-  .flow-step .fs-num{
-    font-family: var(--mono); font-size: 0.7rem; color: var(--violet); margin-bottom: 8px;
-  }
-  .flow-step .fs-label{ font-size: 0.82rem; color: var(--ink); font-weight: 500; line-height: 1.4; }
-  .flow-arrow{
-    display: flex; align-items: center; justify-content: center;
-    color: var(--slate-dim); font-size: 1rem; padding: 0 6px;
-  }
-  @media (max-width: 640px){
-    .flow{ flex-direction: column; }
-    .flow-step:first-child, .flow-step:last-child{ border-radius: 14px; }
-    .flow-arrow{ transform: rotate(90deg); padding: 4px 0; }
-  }
-
-  /* ---------- Impact stats ---------- */
-  .impact-row{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 8px; }
-  .impact-stat{
-    background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px 20px;
-  }
-  .impact-stat .num{
-    font-family: var(--mono); font-weight: 500; font-size: 1.5rem;
-    background: linear-gradient(100deg, var(--blue), var(--violet));
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-  .impact-stat .lbl{ margin-top: 8px; font-size: 0.82rem; color: var(--slate); line-height: 1.4; }
-  @media (max-width: 640px){ .impact-row{ grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 460px){ .impact-row{ grid-template-columns: 1fr; } }
-
-  /* ---------- Calc box ---------- */
-  .calc-box{
-    margin-top: 24px;
-    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
-    padding: 24px 28px;
-    font-family: var(--mono); font-size: 0.88rem; line-height: 1.9; color: var(--slate);
-  }
-  .calc-box .cline{ display: flex; justify-content: space-between; gap: 20px; max-width: 420px; flex-wrap: wrap; }
-  .calc-box .cline .cval{ color: var(--ink); }
-  .calc-box hr{ border: none; border-top: 1px solid var(--line); margin: 10px 0; max-width: 420px; }
-  .calc-box .cresult{ display: flex; justify-content: space-between; gap: 20px; max-width: 420px; }
-  .calc-box .cresult .cval{
-    font-weight: 500;
-    background: linear-gradient(100deg, var(--blue), var(--violet));
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-  .calc-note{ font-size: 0.78rem; color: var(--slate-dim); margin-top: 14px; font-family: var(--body); line-height: 1.6; }
-
-  /* ---------- Reflection box ---------- */
-  .reflection{
-    background: linear-gradient(160deg, rgba(163,116,255,0.06), transparent);
-    border: 1px solid rgba(163,116,255,0.2);
-    border-radius: 18px;
-    padding: 32px 32px;
-  }
-  .reflection .case-label{ margin-bottom: 12px; }
-
-  /* ---------- Case nav footer ---------- */
-  .case-footer{
-    margin-top: 90px; padding-top: 40px; border-top: 1px solid var(--line);
-    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
-  }
-  .next-case{ font-size: 0.9rem; color: var(--slate); }
-  .next-case a{ color: var(--ink); font-weight: 600; margin-left: 6px; }
-  .next-case a:hover{ color: var(--blue); }
-
-  footer.site-footer{
-    padding: 30px 32px; border-top: 1px solid var(--line);
-    font-family: var(--mono); font-size: 0.75rem; color: var(--slate-dim); text-align: center;
-  }
-
-  .proto-note{
-    background: linear-gradient(100deg, var(--blue), var(--violet)); color: #fff; text-align: center;
-    font-family: var(--mono); font-size: 0.78rem; padding: 10px; letter-spacing: 0.02em;
-  }
+  .fecho{background:var(--magenta);color:var(--creme);padding:64px 0;position:relative;overflow:hidden;}
+  .fecho .env{position:relative;z-index:2;}
+  .fecho-estrela{position:absolute;z-index:1;fill:var(--rosa);opacity:.2;left:-60px;bottom:-50px;width:230px;transform:rotate(-14deg);pointer-events:none;}
+  .fecho h2{color:var(--creme);}
+  .fecho p{color:#F7E6EF;}
+  .btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;}
+  .btn{display:inline-block;font-weight:600;font-size:16px;padding:13px 26px;border-radius:999px;text-decoration:none;border:2px solid var(--creme);}
+  .btn-cheio{background:var(--creme);color:var(--magenta);}
+  .btn-cheio:hover{background:var(--rosa);border-color:var(--rosa);color:var(--tinta);}
+  .btn-vazio:hover{background:rgba(255,255,255,.16);}
+  .rodape{background:var(--magenta-fd);color:#EBC9DA;padding:22px 0;font-size:14px;}
+  .rodape .env-larga{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 </style>
 </head>
 <body>
 
+<a class="pular" href="#conteudo">Skip to content</a>
 
-<header>
-  <div class="header-inner">
-    <a href="index-en.html#jornadas" class="back-link">← All journeys</a>
-    <a href="index-en.html#convite" class="contact-btn">Get in touch →</a>
+<header class="topo">
+  <div class="topo-int">
+    <a class="marca" href="index-en.html">Caroline Gonçalves</a>
+    <a href="index-en.html#cases">All cases</a>
   </div>
 </header>
 
-<main>
+<main id="conteudo">
 
-  <div class="case-eyebrow">
-    <span>Journey 03</span> · <span>Qulture.Rocks</span> · <span>Discovery · Data · HR Tech</span>
+<section class="capa">
+  <svg class="capa-estrela" viewBox="0 0 100 96" aria-hidden="true"><path d="M50 0 L61 34 L97 34 L68 56 L79 91 L50 69 L21 91 L32 56 L3 34 L39 34 Z"/></svg>
+  <div class="env">
+    <p class="capa-meta">Qulture.Rocks · Discovery, data and HR Tech</p>
+    <h1>The churn study that turned into a product bet</h1>
+    <p class="resumo">Churn was climbing and nobody had a structured explanation, only loose theories. I ran the company's first churn study and the result became the growth hypothesis for the following year.</p>
   </div>
-  <h1 class="case-title">The churn study that became a product hypothesis</h1>
-  <p class="case-dek">
-    How a statistical test revealed why clients were canceling, and turned into a product bet to raise the platform's perceived value year-round — not just during performance review season.
-  </p>
+</section>
 
-  <div class="tldr">
-    <div class="tldr-item">
-      <div class="k">My role</div>
-      <div class="v">Discovery, statistical analysis, and product hypothesis</div>
+<div class="ficha">
+  <div class="ficha-grade">
+    <div><b>My role</b><span>Discovery, statistical analysis and product hypothesis</span></div>
+    <div><b>What was at stake</b><span>The entire 2024 product strategy</span></div>
+    <div><b>Method</b><span>Chi-square test</span></div>
+    <div><b>Nobody asked</b><span>I picked the study up myself</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="env">
+    <h2>A product sold for one month of the year</h2>
+    <p>Qulture.Rocks is a performance management and organisational culture platform. The best-selling product was <span class="destaque">Performance Review</span>, run once or twice a year. Outside those windows, most clients had no strong reason to open the platform at all.</p>
+    <p>It was also a period of financial squeeze from the pandemic. Companies were cutting anything that looked like a nice-to-have, and we needed to make sure we weren't read that way.</p>
+    <p>Going into 2024, churn was rising. Several theories were circulating and none had been tested against the data. I decided to run the company's first churn study.</p>
+  </div>
+</section>
+
+<section>
+  <div class="env">
+    <h2>What the chi-square test showed</h2>
+    <p>I ran a chi-square test crossing several client behaviour variables against cancellation.</p>
+
+    <div class="metodo">
+      <h3>What that test actually does, in plain terms</h3>
+      <p>It checks whether an association exists between two categorical variables. Here, between a client's usage pattern (Performance Review only versus multiple products) and whether they cancelled. It compares what was observed against what you'd expect if there were no relationship at all, to separate a real difference from a coincidence in the sample.</p>
     </div>
-    <div class="tldr-item">
-      <div class="k">Method</div>
-      <div class="v">Chi-square test</div>
+
+    <p>The pattern came out clearly: clients using <span class="destaque">only the Performance Review product</span>, the best-selling one, cancelled far more readily than those using other products alongside it.</p>
+    <p>Which made sense. If the review happens once or twice a year, the client has no reason to keep paying through the other ten months.</p>
+
+    <div class="cadeia">
+      <div class="elo">Usage concentrated in a short window of the year</div>
+      <div class="elo">Little perceived value the rest of the time</div>
+      <div class="elo">Willingness to cancel at renewal</div>
     </div>
-    <div class="tldr-item">
-      <div class="k">Timeframe</div>
-      <div class="v">Turn of 2024</div>
-    </div>
-    <div class="tldr-item">
-      <div class="k">Result</div>
-      <div class="v">Guided the next year's product bet</div>
+
+    <div class="ressalva">
+      <h3>What this test proves and what it doesn't</h3>
+      <p>Chi-square establishes association, not cause. It shows the two groups cancel at rates far enough apart that chance is an unlikely explanation. It does not show that restricted usage is the reason for cancelling.</p>
+      <p>There are at least two competing explanations the test alone doesn't rule out. The first is reverse causation: a client who has already decided to leave stops exploring new products, which would make restricted usage a symptom rather than a cause. The second is composition: companies that buy only Performance Review tend to be smaller with smaller contracts, and smaller companies churn more on their own, especially in a cost-cutting year.</p>
+      <p>I treated the finding as <b>a hypothesis strong enough to steer a product bet</b>, rather than a demonstrated cause. That's what the available data supported.</p>
     </div>
   </div>
+</section>
 
-  <!-- CONTEXTO -->
-  <section class="case-section">
-    <div class="case-label">Context</div>
-    <h2 class="case-heading">A product sold for one moment of the year</h2>
-    <p>
-      Qulture.Rocks is a performance management and organizational culture platform. Our best-selling product was the <strong>Performance Review (AVD)</strong> — but it only ran once or twice a year. Outside those windows, a good chunk of clients had no strong reason to keep using the platform day to day.
-    </p>
-    <p>
-      It was also a period of harsher financial pressure due to the pandemic — companies were cutting anything considered "nice to have," and we needed to make sure the platform wasn't seen that way.
-    </p>
-  </section>
-
-  <!-- O PROBLEMA -->
-  <section class="case-section">
-    <div class="case-label">The problem</div>
-    <h2 class="case-heading">Churn rising, with no clear cause mapped</h2>
-    <p>
-      At the turn of 2024, the company's churn was climbing, and no one had a structured explanation — just loose guesses. I decided to run Qulture.Rocks' first churn study to understand, with real data, what was going on.
-    </p>
-  </section>
-
-  <!-- A ANÁLISE -->
-  <section class="case-section">
-    <div class="case-label">The analysis</div>
-    <h2 class="case-heading">What the chi-square test revealed</h2>
-    <p>
-      I ran a <strong>chi-square test</strong> across several client behavior variables. It's a statistical method that checks whether there's an association between two categorical variables — for example, between a client's usage pattern (Performance Review only vs. multiple products) and whether they canceled. It compares what was observed against what you'd expect if there were no relationship between the variables, to tell whether the difference is real (statistically significant) or just a coincidence in the data we happened to have.
-    </p>
-    <p>
-      The result showed a clear pattern: clients who used <strong>only the Performance Review product</strong> — our best-seller — canceled far more easily than clients who also used other products on the platform. It made sense: if the review only happens once or twice a year, the client didn't necessarily want to keep paying for the platform the rest of the year.
-    </p>
-    <div class="quote-pull">
-      Lack of engagement outside the review window led to a lack of perceived value — and a lack of perceived value led to the urge to cancel.
-    </div>
-  </section>
-
-  <!-- A HIPÓTESE -->
-  <section class="case-section">
-    <div class="case-label">The hypothesis</div>
-    <h2 class="case-heading">If the problem was engagement, which product could fix it?</h2>
-    <p>
-      Based on the analysis, I formed the hypothesis that increasing platform usage in the months outside the review window could raise perceived value and reduce churn. The question was: which product had real potential to sustain that usage year-round?
-    </p>
-    <p>
-      My bet was the <strong>PDI (Individual Development Plan)</strong> — because it was already directly connected to the Performance Review (every review could generate a PDI), and unlike the review, it made sense to use the PDI year-round, tracking an employee's development continuously.
-    </p>
-  </section>
-
-  <!-- MAIS UM PADRÃO NOS DADOS -->
-  <section class="case-section">
-    <div class="case-label">Another pattern in the data</div>
-    <h2 class="case-heading">HR engagement was also product engagement</h2>
-    <p>
-      The same statistical analysis surfaced something else important: the companies most engaged with the platform were exactly the ones where the HR person in charge kept in constant touch with us — frequent meetings, active questions, close follow-up.
-    </p>
-    <p>
-      I passed that insight to the Customer Success team, who built a plan to pull in more check-in meetings with less-engaged companies, helping them get more day-to-day value out of the platform.
-    </p>
-  </section>
-
-  <!-- O QUE EU FIZ NO PRODUTO -->
-  <section class="case-section">
-    <div class="case-label">What I did in the product</div>
-    <h2 class="case-heading">Removing friction for people already using the PDI</h2>
-    <p>
-      I started working on the PDI with the goal of cutting usage friction as much as possible. Two main fronts:
-    </p>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="fnum">01</div>
-        <h4>Notifications at every step</h4>
-        <p>I started notifying users at every step of the PDI, keeping the development plan top of mind throughout the year, not just during review season.</p>
-      </div>
-      <div class="feature-card">
-        <div class="fnum">02</div>
-        <h4>Filling it out from tools already in use</h4>
-        <p>The highest-potential change: giving people the option to fill out the PDI directly from tools they already used at work, like Slack — removing the friction of having to open yet another separate platform.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- O QUE EU FARIA DIFERENTE -->
-  <section class="case-section reflection">
-    <div class="case-label">What I'd do differently</div>
-    <h2 class="case-heading">I didn't stay long enough to see churn move</h2>
-    <p>
-      I left the company a few months after starting this work, and churn isn't a metric that responds quickly — the real effect of an engagement change only shows up months later, at the next renewal cycle. So I don't have the final number on how much churn actually dropped because of these changes.
-    </p>
-    <p>
-      If I had stayed, the right approach would've been cohort tracking: split companies between those who started engaging more with the PDI — measured by fill-out frequency, notification engagement, and adoption of the Slack fill-out option — and those who kept the previous pattern. I'd track usage indicators month over month as a leading signal, since churn is a slow-responding metric that only gets confirmed at the next renewal cycle, which could take up to a year. And I'd cross that with the CS team, checking whether the more-engaged group actually renewed more or signaled less intent to cancel in check-in conversations — only that comparison would let me back up the impact with data, not just perception.
-    </p>
-  </section>
-
-  <div class="case-footer">
-    <a href="index-en.html#jornadas" class="back-link">← All journeys</a>
-    <div class="next-case">More journeys coming soon</div>
+<section>
+  <div class="env">
+    <h2>The second pattern, which I wasn't looking for</h2>
+    <p>The same analysis surfaced something else: the most engaged companies were the ones where the HR person in charge kept constant contact with us. Frequent meetings, active questions, close follow-up.</p>
+    <p>That was Customer Success territory. I took the finding to the team, and they built a plan to pull more check-in meetings with the least engaged companies. A good finding doesn't have to be yours. It just has to reach whoever can use it.</p>
   </div>
+</section>
+
+<section>
+  <div class="env">
+    <h2>What I chose not to do</h2>
+    <p>The easy reading of the result would be to push cross-sell: if clients using more products churn less, then selling more modules fixes it. I didn't go there. In a cost-cutting year, asking for more budget is the worst possible moment, and it would treat the symptom without touching the reason, which was the platform sitting empty ten months a year.</p>
+    <p>The question I picked instead was: which product the company <em>already owns</em> can sustain usage all year?</p>
+
+    <div class="virada">
+      <p>The bet was the development plan. It was already born out of the Performance Review, and unlike the review, it makes sense to use it all year.</p>
+    </div>
+
+    <p>Every development plan could come out of a review, so it required no new sale and no contract change. And following someone's development happens continuously by nature. It was the only product in the portfolio that filled the empty window without charging an already squeezed client anything more.</p>
+  </div>
+</section>
+
+<section>
+  <div class="env">
+    <h2>What I built</h2>
+    <p>I started by removing friction for people already using the development plan, on two fronts.</p>
+    <ul class="construi">
+      <li>
+        <h3>Notifications at every stage</h3>
+        <p>I started notifying the user at each stage of the plan, to keep development alive through the year rather than only at review season.</p>
+      </li>
+      <li>
+        <h3>Fill it in from where the person already works</h3>
+        <p>The change with the most potential. Giving people the option to fill in the plan straight from Slack, removing the friction of opening yet another platform. If the problem was that people didn't come back, the fix couldn't depend on them coming back.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="env">
+    <h2>What I'd do differently</h2>
+    <p><b>I didn't stay long enough to watch churn move.</b> I left the company a few months after starting this work, and churn is a slow metric: the effect of an engagement change only shows up at the next renewal cycle, which could take up to a year. I don't have the final number, and I'd rather say so than imply otherwise.</p>
+    <p><b>The right tracking would have been by cohort.</b> Split companies between those that increased engagement with the development plan, measured by fill frequency, notification usage and Slack adoption, and those that kept the previous pattern. Watch usage month by month as an early signal, since churn only confirms much later. And cross it with CS to see whether the more engaged group actually renewed more or signalled less intent to leave in check-in conversations.</p>
+    <p><b>And I'd test the reverse causation.</b> All it took was looking at the timeline: did restricted usage show up from the start of the contract, or only in the months before cancellation? That single check separates symptom from cause, and I had the data to run it.</p>
+  </div>
+</section>
+
+<section class="fecho">
+  <svg class="fecho-estrela" viewBox="0 0 100 96" aria-hidden="true"><path d="M50 0 L61 34 L97 34 L68 56 L79 91 L50 69 L21 91 L32 56 L3 34 L39 34 Z"/></svg>
+  <div class="env">
+    <h2>I like questions nobody assigned me.</h2>
+    <p>This study wasn't in my scope. If your team has one of those sitting still, come find me.</p>
+    <div class="btns">
+      <a class="btn btn-cheio" href="index-en.html#contato">Get in touch</a>
+      <a class="btn btn-vazio" href="case-payments-en.html">See the payments case</a>
+      <a class="btn btn-vazio" href="index-en.html#cases">All cases</a>
+    </div>
+  </div>
+</section>
 
 </main>
 
-
-
-<footer class="site-footer">© 2026 Caroline Gonçalves</footer>
+<footer class="rodape">
+  <div class="env-larga">
+    <span>© 2026 Caroline Gonçalves</span>
+    <span>Built by me, with Claude, on Vercel</span>
+  </div>
+</footer>
 
 </body>
 </html>
