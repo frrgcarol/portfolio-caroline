@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+<!-- layout-v3-etiqueta-em-coluna-propria -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -124,7 +125,7 @@
   .hero-int{
     position:relative; z-index:3;
     max-width:var(--max); margin:0 auto; padding:0 var(--gutter);
-    display:grid; grid-template-columns: 1.35fr 0.85fr; gap:56px; align-items:end;
+    display:grid; grid-template-columns: 1.15fr 1fr; gap:48px; align-items:end;
   }
   .hero-txt{ padding-bottom:88px; }
   .ola{ font-size:17px; font-weight:500; opacity:.9; margin-bottom:8px; }
@@ -149,25 +150,28 @@
   .btn-cheio:hover{ background:var(--rosa); border-color:var(--rosa); color:var(--tinta); }
   .btn-vazio:hover{ background:rgba(255,255,255,.16); }
 
-  .hero-foto{ position:relative; align-self:end; }
+  .hero-foto{
+    align-self:end;
+    display:grid; grid-template-columns: 168px minmax(0,1fr);
+    align-items:end; gap:16px;
+  }
   .hero-foto img{
-    width:100%;
-    display:block;
+    width:100%; height:auto; display:block;
     filter: contrast(1.04) saturate(1.02);
   }
   .selo{
-    position:absolute; top:10px; left:-26px; z-index:3;
+    margin-bottom:64px;
     background:var(--rosa); color:var(--tinta);
     font-weight:700; font-size:14px; line-height:1.35;
-    padding:12px 18px; border-radius:6px;
-    transform: rotate(-6deg); max-width:190px;
+    padding:12px 16px; border-radius:6px;
+    transform: rotate(-5deg);
     box-shadow: 0 6px 0 rgba(0,0,0,.12);
   }
   @media (max-width: 900px){
     .hero-int{ grid-template-columns:1fr; gap:0; }
     .hero-txt{ padding-bottom:44px; }
-    .hero-foto{ max-width:330px; margin:0 auto; }
-    .selo{ left:-8px; }
+    .hero-foto{ max-width:340px; margin:0 auto; grid-template-columns:minmax(0,1fr); justify-items:start; gap:10px; }
+    .selo{ margin-bottom:0; margin-left:4px; font-size:13.5px; max-width:200px; }
   }
 
   /* ---------- números ---------- */
@@ -255,26 +259,30 @@
   .contato .env{ position:relative; z-index:3; }
   .contato h2{ color:var(--creme); max-width:17ch; }
   .contato .conv{ color:#F7E6EF; font-size:18px; margin-top:18px; max-width:46ch; }
-  .contato-grade{ display:grid; grid-template-columns: 1fr 300px; gap:48px; align-items:end; }
+  .contato-grade{ display:grid; grid-template-columns: 1fr 400px; gap:40px; align-items:end; }
 
   .estrela{ position:absolute; z-index:1; pointer-events:none; fill:var(--rosa); }
   .estrela-1{ right:170px; top:54px; width:250px; opacity:.9; transform:rotate(9deg); }
   .estrela-2{ left:-70px; bottom:-40px; width:210px; opacity:.28; transform:rotate(-14deg); }
   .estrela-3{ right:24px; bottom:120px; width:74px; opacity:.55; transform:rotate(18deg); }
 
-  .cabeca{ position:relative; z-index:2; align-self:end; }
-  .cabeca img{ width:100%; display:block; }
+  .cabeca{
+    z-index:2; align-self:end;
+    display:grid; grid-template-columns: 166px minmax(0,1fr);
+    align-items:end; gap:14px;
+  }
+  .cabeca img{
+    width:100%; height:auto; display:block;
+    -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
+    mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
+  }
   .etiqueta{
-    position:absolute; z-index:4; left:-58px; top:24px;
+    margin-bottom:40px;
     background:var(--creme); color:var(--tinta);
     font-size:14.5px; font-weight:700; line-height:1.35;
     padding:10px 16px; border-radius:6px;
-    transform:rotate(-7deg); max-width:170px;
+    transform:rotate(-5deg);
     box-shadow:0 5px 0 rgba(0,0,0,.14);
-  }
-  .etiqueta-2{
-    left:auto; right:-30px; top:auto; bottom:38px;
-    background:var(--rosa); transform:rotate(6deg); max-width:150px;
   }
 
   .links{ display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
@@ -284,11 +292,12 @@
 
   @media (max-width:900px){
     .contato-grade{ grid-template-columns:1fr; gap:0; }
-    .cabeca{ max-width:250px; margin:44px auto 0; }
+    .cabeca{ max-width:300px; margin:44px auto 0; grid-template-columns:minmax(0,1fr); justify-items:start; gap:10px; }
+    .cabeca img{ order:2; }
+    .etiqueta{ order:1; margin-bottom:0; margin-left:4px; }
     .estrela-1{ right:-40px; top:auto; bottom:60px; width:190px; }
     .estrela-3{ display:none; }
-    .etiqueta{ left:-30px; }
-    .etiqueta-2{ right:-14px; }
+    .etiqueta{ font-size:13.5px; max-width:210px; }
   }
 
   .rodape{ background:var(--magenta-fd); color:#EBC9DA; padding:22px 0; font-size:14px; }
@@ -566,7 +575,6 @@
       </div>
       <div class="cabeca">
         <p class="etiqueta">eu leio tudo e respondo de verdade</p>
-        <p class="etiqueta etiqueta-2">pode chegar sem contexto</p>
         <img src="caroline-cabeca.png" alt="">
       </div>
     </div>
