@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<!-- layout-v3-etiqueta-em-coluna-propria -->
+<!-- layout-v4-hero-compacto -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -102,7 +102,7 @@
   .hero{
     background: var(--magenta);
     color: var(--creme);
-    padding: 80px 0 0;
+    padding: 44px 0 0;
     position:relative; overflow:hidden;
   }
   .hero::after{
@@ -114,8 +114,8 @@
     background-position: 0 0, 2px 2px;
   }
   .hero-estrela{ position:absolute; z-index:1; fill:var(--rosa); pointer-events:none; }
-  .hero-e1{ right:120px; top:38px; width:300px; opacity:.16; transform:rotate(10deg); }
-  .hero-e2{ left:-64px; bottom:34px; width:180px; opacity:.13; transform:rotate(-15deg); }
+  .hero-e1{ right:150px; top:20px; width:230px; opacity:.14; transform:rotate(10deg); }
+  .hero-e2{ left:-64px; bottom:24px; width:160px; opacity:.12; transform:rotate(-15deg); }
   .hero::after{ z-index:2; }
   @media (max-width:900px){
     .hero-e1{ right:-50px; top:auto; bottom:200px; width:200px; }
@@ -125,22 +125,22 @@
   .hero-int{
     position:relative; z-index:3;
     max-width:var(--max); margin:0 auto; padding:0 var(--gutter);
-    display:grid; grid-template-columns: 1.15fr 1fr; gap:48px; align-items:end;
+    display:grid; grid-template-columns: 1fr 1.05fr; gap:44px; align-items:end;
   }
-  .hero-txt{ padding-bottom:88px; }
-  .ola{ font-size:17px; font-weight:500; opacity:.9; margin-bottom:8px; }
+  .hero-txt{ padding-bottom:44px; }
+  .ola{ font-size:16px; font-weight:500; opacity:.9; margin-bottom:6px; }
   h1{
-    font-size: clamp(56px, 10vw, 128px);
+    font-size: clamp(48px, 7.2vw, 88px);
     text-transform: uppercase;
-    margin-bottom: 26px;
+    margin-bottom: 16px;
   }
   .tese{
-    font-size: clamp(21px, 2.5vw, 29px);
-    font-weight:600; line-height:1.35;
-    max-width: 21ch; margin-bottom:20px;
+    font-size: clamp(20px, 2.1vw, 25px);
+    font-weight:600; line-height:1.32;
+    max-width: 27ch; margin-bottom:14px;
   }
-  .hero .sub{ font-size:17px; line-height:1.7; color:#F7E6EF; max-width:52ch; }
-  .hero-acoes{ display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
+  .hero .sub{ font-size:16.5px; line-height:1.62; color:#F7E6EF; max-width:50ch; }
+  .hero-acoes{ display:flex; flex-wrap:wrap; gap:12px; margin-top:24px; }
   .btn{
     display:inline-block; font-weight:600; font-size:16px;
     padding:13px 26px; border-radius:999px; text-decoration:none;
@@ -152,15 +152,15 @@
 
   .hero-foto{
     align-self:end;
-    display:grid; grid-template-columns: 168px minmax(0,1fr);
-    align-items:end; gap:16px;
+    display:grid; grid-template-columns: 150px minmax(0,1fr);
+    align-items:end; gap:14px;
   }
   .hero-foto img{
     width:100%; height:auto; display:block;
     filter: contrast(1.04) saturate(1.02);
   }
   .selo{
-    margin-bottom:64px;
+    margin-bottom:56px;
     background:var(--rosa); color:var(--tinta);
     font-weight:700; font-size:14px; line-height:1.35;
     padding:12px 16px; border-radius:6px;
